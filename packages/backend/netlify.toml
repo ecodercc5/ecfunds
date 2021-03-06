@@ -1,0 +1,6 @@
+[build]
+    functions="lib"
+
+[[redirects]]
+    from="/api/*"
+    to="/.netlify/functions/api/:splat"
