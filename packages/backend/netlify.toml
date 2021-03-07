@@ -1,5 +1,5 @@
 [build]
-    functions="lib"
+    functions="dist"
 
 [[redirects]]
     from="/api/*"
