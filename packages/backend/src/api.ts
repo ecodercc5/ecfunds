@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import serverless from "serverless-http";
 import { schema } from "./schema";
-import { firestore } from "./modules/firebase";
 
 dotenv.config();
 

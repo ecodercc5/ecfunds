@@ -23,7 +23,8 @@
     "dev": "concurrently \"npm run watch\" \"npm run server:start\" \"npm run emulators:start\"",
     "server:start": "netlify dev",
     "emulators:start": "firebase emulators:start --import=./test_data",
-    "exit": "firebase emulators:export ./test_data"
+    "exit": "firebase emulators:export ./test_data",
+    "generate": "graphql-codegen --watch"
   },
   "bugs": {
     "url": "https://github.com/ecodercc5/ecfunds/issues"
@@ -40,6 +41,8 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/typescript": "^1.21.1",
+    "@types/lodash.merge": "^4.6.6",
     "concurrently": "^6.0.0"
   }
 }

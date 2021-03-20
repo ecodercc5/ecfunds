@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@chakra-ui/react";
+import { useLogout, useSignInWithGoogle } from "./hooks/auth";
+import { useAuth } from "./providers/auth";
 
-function App() {
+export const App = () => {
+  const auth = useAuth();
+  const { signInWithGoogle } = useSignInWithGoogle();
+  const { logout } = useLogout();
+
+  console.log(auth);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <pre>{JSON.stringify(auth.user, null, 4)}</pre>
+
+      <Button onClick={signInWithGoogle}>Login With Google</Button>
+      <Button onClick={logout}>Logout</Button>
     </div>
   );
-}
-
-export default App;
+};
