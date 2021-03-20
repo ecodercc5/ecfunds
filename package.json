@@ -3,9 +3,5 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.22.1"
-  },
-  "dependencies": {
-    "firebase-admin": "^9.5.0",
-    "lodash.merge": "^4.6.2"
   }
 }
