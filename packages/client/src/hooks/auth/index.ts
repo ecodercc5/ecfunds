@@ -1,13 +1,25 @@
+import { useMutation } from "@apollo/client";
 import { useCallback } from "react";
 import { firebase } from "../../firebase";
+import { SIGN_IN_USER } from "../../graphql/user";
 import { useLazyAsync } from "../useAsync";
 
 export const useSignInWithGoogle = () => {
-  const { isLoading, data, execute, error } = useLazyAsync(() => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    const signIn = firebase.auth().signInWithPopup(googleProvider);
+  const [signInUser, { data: user, loading }] = useMutation(SIGN_IN_USER);
 
-    return signIn;
+  const { isLoading, data, execute, error } = useLazyAsync(async () => {
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const userCredentials = await firebase
+      .auth()
+      .signInWithPopup(googleProvider);
+
+    const uid = userCredentials.user?.uid;
+
+    signInUser({
+      variables: {
+        uid,
+      },
+    }).then((res) => console.log(res));
   });
 
   return { isLoading, data, error, signInWithGoogle: execute };

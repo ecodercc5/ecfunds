@@ -1,6 +1,7 @@
 import { ApolloError } from "apollo-server-errors";
 import { User, UserCollection } from "../models/user";
 import { auth } from "../modules/firebase";
+import { stripe } from "../modules/stripe";
 
 export class UserService {
   static async signIn(uid: string) {
@@ -37,16 +38,39 @@ export class UserService {
     }
 
     // create new user document
-    const { email, photoURL } = user;
+    const { displayName: name, email, photoURL } = user;
+
+    // create stripe customer & connected account
+    const customer = await stripe.customers.create({
+      email,
+      metadata: { firebaseUid: uid },
+    });
+
+    const connectedAccount = await stripe.accounts.create({ type: "express" });
+
+    // add stripe billing details on user
+    const customerId = customer.id;
+    const {
+      id: connectedAccountId,
+      charges_enabled: chargesEnabled,
+    } = connectedAccount;
 
     const newUser = new User({
+      name,
       email: email!,
       photoURL,
       id: uid,
+      billing: {
+        customerId,
+        connectedAccountId,
+        chargesEnabled,
+      },
     });
 
+    console.log(newUser);
+
     // save user to firestore
-    await UserCollection.doc(uid).set(newUser);
+    // await UserCollection.doc(uid).set(newUser);
 
     return newUser;
   }

@@ -23,7 +23,7 @@
     "dev": "concurrently \"npm run watch\" \"npm run server:start\" \"npm run emulators:start\"",
     "server:start": "netlify dev",
     "emulators:start": "firebase emulators:start --import=./test_data",
-    "exit": "firebase emulators:export ./test_data",
+    "export": "firebase emulators:export ./test_data",
     "generate": "graphql-codegen --watch"
   },
   "bugs": {
@@ -37,7 +37,8 @@
     "firebase-admin": "^9.5.0",
     "graphql": "^15.5.0",
     "lodash.merge": "^4.6.2",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "stripe": "^8.139.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",

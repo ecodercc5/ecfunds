@@ -29,7 +29,9 @@ export type MutationSignInUserArgs = {
 
 export type User = {
   __typename?: 'User';
+  name: Scalars['String'];
   email: Scalars['String'];
   photoUrl?: Maybe<Scalars['String']>;
+  chargesEnabled: Scalars['Boolean'];
   id: Scalars['ID'];
 };
