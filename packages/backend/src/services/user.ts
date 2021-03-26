@@ -8,7 +8,7 @@ export class UserService {
     console.log("signing in user");
 
     // check if user is already signed up
-    const prevUser = await UserService.get(uid);
+    const prevUser = await UserService.getByUid(uid);
 
     console.log({ prevUser });
 
@@ -21,7 +21,7 @@ export class UserService {
     return newUser;
   }
 
-  static async get(uid: string) {
+  static async getByUid(uid: string) {
     return UserCollection.doc(uid)
       .get()
       .then((doc) => doc.data());
@@ -70,7 +70,7 @@ export class UserService {
     console.log(newUser);
 
     // save user to firestore
-    // await UserCollection.doc(uid).set(newUser);
+    await UserCollection.doc(uid).set(newUser);
 
     return newUser;
   }

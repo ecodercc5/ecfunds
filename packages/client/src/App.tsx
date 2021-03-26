@@ -11,7 +11,11 @@ export const App = () => {
 
   return (
     <div>
-      <pre>{JSON.stringify(auth.user, null, 4)}</pre>
+      {auth.isLoading ? (
+        <div>loading</div>
+      ) : (
+        <pre>{JSON.stringify(auth.user, null, 4)}</pre>
+      )}
 
       <Button onClick={signInWithGoogle}>Login With Google</Button>
       <Button onClick={logout}>Logout</Button>

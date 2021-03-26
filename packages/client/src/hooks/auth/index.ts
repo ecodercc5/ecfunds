@@ -1,8 +1,12 @@
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
 import { firebase } from "../../firebase";
-import { SIGN_IN_USER } from "../../graphql/user";
+import { GET_ME, SIGN_IN_USER } from "../../graphql/user";
 import { useLazyAsync } from "../useAsync";
+
+export const useLazyMe = () => {
+  return useLazyQuery(GET_ME);
+};
 
 export const useSignInWithGoogle = () => {
   const [signInUser, { data: user, loading }] = useMutation(SIGN_IN_USER);

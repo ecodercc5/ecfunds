@@ -1,28 +1,38 @@
-import { useEffect, useState } from "react";
-import { FirebaseApp, FirebaseUser } from "../../../types/firebase";
+import { useEffect, useRef, useState } from "react";
+import { useLazyMe } from "../../../hooks/auth";
+import { FirebaseApp } from "../../../types/firebase";
 
 export const useAuthState = (firebase: FirebaseApp) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const authStateInitRef = useRef(false);
+
+  const [authMeta, setAuthMeta] = useState({ isLoading: true, error: "" });
+  const [getMe, { data = { me: null }, loading: isMeLoading }] = useLazyMe();
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(
-      (user) => {
+      async (user) => {
         console.log("on auth state changed");
-        console.log(user);
 
-        setUser(user);
-        setIsLoading(false);
+        // is first auth state initialization
+        if (!authStateInitRef.current && user) {
+          getMe();
+
+          user.getIdToken().then((idToken) => console.log(idToken));
+        }
+
+        authStateInitRef.current = true;
+
+        setAuthMeta((prev) => ({ ...prev, isLoading: false }));
       },
       (err) => {
-        setError(err.message);
-        setIsLoading(false);
+        setAuthMeta((prev) => ({ ...prev, error: err.message }));
       }
     );
 
     return unsubscribe;
-  }, [firebase]);
+  }, [firebase, getMe]);
 
-  return { isLoading, error, user };
+  const isLoading = authMeta.isLoading || isMeLoading;
+
+  return { isLoading, error: authMeta.error, user: data.me };
 };

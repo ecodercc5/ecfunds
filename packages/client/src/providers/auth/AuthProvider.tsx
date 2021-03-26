@@ -5,7 +5,7 @@ import { useAuthState } from "./hooks";
 interface IAuthContext {
   isLoading: boolean;
   error: string;
-  user: FirebaseUser | null;
+  user: any;
 }
 
 const AuthContext = React.createContext<IAuthContext>(null!);
