@@ -1,5 +1,5 @@
 import React from "react";
-import { FirebaseApp, FirebaseUser } from "../../types/firebase";
+import { FirebaseApp } from "../../types/firebase";
 import { useAuthState } from "./hooks";
 
 interface IAuthContext {

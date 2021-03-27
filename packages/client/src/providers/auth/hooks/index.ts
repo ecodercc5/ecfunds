@@ -11,8 +11,8 @@ export const useAuthState = (firebase: FirebaseApp) => {
   const [getMe, { data: lazyMeData, loading: isMeLoading }] = useLazyMe();
   const { data } = useQuery(GET_ME, { fetchPolicy: "cache-only" });
 
-  console.log({ lazyMeData });
-  console.log({ data });
+  // console.log({ lazyMeData });
+  // console.log({ data });
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(
@@ -39,7 +39,7 @@ export const useAuthState = (firebase: FirebaseApp) => {
   }, [firebase, getMe]);
 
   const isLoading = authMeta.isLoading || isMeLoading;
-  const me = data?.me || lazyMeData?.me;
+  const me = data?.me || lazyMeData?.me || null;
 
   return { isLoading, error: authMeta.error, user: me };
 };

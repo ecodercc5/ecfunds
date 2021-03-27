@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { App } from "./App";
-import { AuthProvider } from "./providers/auth";
 import { firebase } from "./firebase";
+import { App } from "./App";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./providers/auth";
 import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
@@ -41,7 +42,9 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <ChakraProvider>
         <AuthProvider firebase={firebase}>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </AuthProvider>
       </ChakraProvider>
     </ApolloProvider>
