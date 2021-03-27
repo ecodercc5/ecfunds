@@ -1,4 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
+import { GET_ME } from "../../../graphql/user";
 import { useLazyMe } from "../../../hooks/auth";
 import { FirebaseApp } from "../../../types/firebase";
 
@@ -6,7 +8,11 @@ export const useAuthState = (firebase: FirebaseApp) => {
   const authStateInitRef = useRef(false);
 
   const [authMeta, setAuthMeta] = useState({ isLoading: true, error: "" });
-  const [getMe, { data = { me: null }, loading: isMeLoading }] = useLazyMe();
+  const [getMe, { data: lazyMeData, loading: isMeLoading }] = useLazyMe();
+  const { data } = useQuery(GET_ME, { fetchPolicy: "cache-only" });
+
+  console.log({ lazyMeData });
+  console.log({ data });
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(
@@ -33,6 +39,7 @@ export const useAuthState = (firebase: FirebaseApp) => {
   }, [firebase, getMe]);
 
   const isLoading = authMeta.isLoading || isMeLoading;
+  const me = data?.me || lazyMeData?.me;
 
-  return { isLoading, error: authMeta.error, user: data.me };
+  return { isLoading, error: authMeta.error, user: me };
 };

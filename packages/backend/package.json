@@ -38,6 +38,7 @@
     "graphql": "^15.5.0",
     "lodash.merge": "^4.6.2",
     "serverless-http": "^2.7.0",
+    "shared": "^0.0.0",
     "stripe": "^8.139.0"
   },
   "devDependencies": {

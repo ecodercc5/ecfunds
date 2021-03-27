@@ -13,8 +13,8 @@ export const GET_ME = gql`
 `;
 
 export const SIGN_IN_USER = gql`
-  mutation SignInUser($uid: String!) {
-    signInUser(uid: $uid) {
+  mutation SignInUser {
+    signInUser {
       name
       email
       photoUrl

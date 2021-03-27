@@ -1,5 +1,8 @@
 schema: "./src/schema/*.ts"
 generates:
+  ../shared/src/index.ts:
+    plugins:
+      - typescript
   ./src/types/graphql.ts:
     plugins:
       - typescript

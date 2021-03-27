@@ -10,17 +10,15 @@ export class ApolloServerExpressContextAPI {
   static async createContext(defaultContext: ExpressContext) {
     let context: Context = { ...defaultContext };
 
-    const authHeader = context.req.header("authorization") || "";
+    const authorization = context.req.header("authorization") || "";
 
-    const [type, token] = authHeader.split(" ");
+    try {
+      const token = AuthService.getAuthorizationToken(authorization);
 
-    if (type !== "Bearer") {
-      return context;
-    }
+      const user = await AuthService.verifyToken(token);
 
-    const user = await AuthService.verifyToken(token);
-
-    context.user = user;
+      context.user = user;
+    } catch {}
 
     return context;
   }

@@ -1,8 +1,8 @@
 import { gql } from "apollo-server-express";
 import { Context } from "../api/context";
 import { User } from "../models/user";
+import { AuthService } from "../services/auth";
 import { UserService } from "../services/user";
-import { MutationSignInUserArgs } from "../types/graphql";
 
 export const typeDef = gql`
   extend type Query {
@@ -10,7 +10,7 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    signInUser(uid: String!): User
+    signInUser: User
   }
 
   type User {
@@ -25,15 +25,28 @@ export const typeDef = gql`
 export const resolvers = {
   Query: {
     me: (parent: any, args: any, context: Context) => {
+      // console.log(context);
+
       return context.user;
     },
   },
 
   Mutation: {
-    signInUser: async (parent: any, { uid }: MutationSignInUserArgs) => {
-      console.log({ uid });
+    signInUser: async (parent: any, args: any, context: Context) => {
+      // if user exists, return it
+      if (context.user) {
+        return context.user;
+      }
 
-      const user = await UserService.signIn(uid);
+      // get auth header
+      const authorization = context.req.header("authorization") || "";
+
+      // get the auth token
+      const token = AuthService.getAuthorizationToken(authorization);
+
+      // sign up the user
+      const { uid } = await AuthService.decodeToken(token);
+      const user = await UserService.signUp(uid);
 
       return user;
     },

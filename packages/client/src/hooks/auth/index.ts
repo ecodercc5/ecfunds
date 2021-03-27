@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { useCallback } from "react";
 import { firebase } from "../../firebase";
 import { GET_ME, SIGN_IN_USER } from "../../graphql/user";
@@ -9,29 +9,40 @@ export const useLazyMe = () => {
 };
 
 export const useSignInWithGoogle = () => {
-  const [signInUser, { data: user, loading }] = useMutation(SIGN_IN_USER);
+  const client = useApolloClient();
+  const [signInUser] = useMutation(SIGN_IN_USER, {
+    update: (_, { data }) => {
+      console.log("sign in update");
+
+      console.log(data.signInUser);
+
+      // update me in the cache
+      client.writeQuery({
+        query: GET_ME,
+        data: {
+          me: data.signInUser,
+        },
+      });
+    },
+  });
 
   const { isLoading, data, execute, error } = useLazyAsync(async () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
-    const userCredentials = await firebase
-      .auth()
-      .signInWithPopup(googleProvider);
+    await firebase.auth().signInWithPopup(googleProvider);
 
-    const uid = userCredentials.user?.uid;
-
-    signInUser({
-      variables: {
-        uid,
-      },
-    }).then((res) => console.log(res));
+    await signInUser();
   });
 
   return { isLoading, data, error, signInWithGoogle: execute };
 };
 
 export const useLogout = () => {
+  const client = useApolloClient();
+
   const logout = useCallback(() => firebase.auth().signOut(), []);
-  const { isLoading, data, execute, error } = useLazyAsync(logout);
+  const { isLoading, data, execute, error } = useLazyAsync(() => {
+    return logout().then(() => client.resetStore());
+  });
 
   return { isLoading, data, error, logout: execute };
 };
