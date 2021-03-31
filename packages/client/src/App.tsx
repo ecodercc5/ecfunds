@@ -4,7 +4,7 @@ import { Components } from "./pages/Components";
 
 export const App = () => {
   return (
-    <Box bg="#F7F7F7">
+    <Box bg="#F7F7F7" height="100%">
       <Switch>
         <Route path="/components" component={Components} />
       </Switch>

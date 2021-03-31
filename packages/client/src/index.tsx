@@ -13,6 +13,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { theme } from "./theme";
 
 // TODO: Learn wth this means!!!
 const httpLink = createHttpLink({
@@ -40,7 +41,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <AuthProvider firebase={firebase}>
           <BrowserRouter>
             <App />
