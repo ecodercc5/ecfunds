@@ -18,7 +18,9 @@ export const AuthProvider: React.FC<Props> = ({ firebase, children }) => {
   const authState = useAuthState(firebase);
 
   return (
-    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authState}>
+      {authState.isLoading ? <div>loading!!!</div> : children}
+    </AuthContext.Provider>
   );
 };
 
