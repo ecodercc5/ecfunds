@@ -20,7 +20,35 @@ export type Query = {
 export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
+  createProject?: Maybe<Project>;
   signInUser?: Maybe<User>;
+};
+
+
+export type MutationCreateProjectArgs = {
+  input: CreateProjectInput;
+};
+
+export type Project = {
+  __typename?: 'Project';
+  name: Scalars['String'];
+  image: Scalars['String'];
+  description: Scalars['String'];
+  createdAt: Scalars['Int'];
+  id: Scalars['ID'];
+};
+
+export type ProjectUserDetails = {
+  __typename?: 'ProjectUserDetails';
+  email: Scalars['String'];
+  photoUrl: Scalars['String'];
+  id: Scalars['String'];
+};
+
+export type CreateProjectInput = {
+  name: Scalars['String'];
+  image: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export type User = {

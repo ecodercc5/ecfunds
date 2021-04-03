@@ -3,12 +3,12 @@ import { User } from "../models/user";
 import { AuthService } from "../services/auth";
 
 export interface Context extends ExpressContext {
-  user?: User | null;
+  user: User | undefined;
 }
 
 export class ApolloServerExpressContextAPI {
   static async createContext(defaultContext: ExpressContext) {
-    let context: Context = { ...defaultContext };
+    let context: Context = { ...defaultContext, user: undefined };
 
     const authorization = context.req.header("authorization") || "";
 

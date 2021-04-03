@@ -1,7 +1,17 @@
+import { User } from "../models/user";
 import { admin } from "../modules/firebase";
 import { UserService } from "./user";
+import { AuthenticationError } from "apollo-server-express";
 
 export class AuthService {
+  static requireAuth(user: User | undefined) {
+    if (!user) {
+      throw new AuthenticationError(
+        "You need to be authenticated to perform this request"
+      );
+    }
+  }
+
   static async decodeToken(token: string) {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
@@ -20,7 +30,7 @@ export class AuthService {
 
       return user;
     } catch (err) {
-      return null;
+      return undefined;
     }
   }
 
