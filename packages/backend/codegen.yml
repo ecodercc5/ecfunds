@@ -1,8 +1,10 @@
 schema: "./src/schema/*.ts"
+documents: "../client/src/graphql/*.ts"
 generates:
-  ../shared/src/index.ts:
+  ../client/src/graphql/types.ts:
     plugins:
       - typescript
+      - typescript-operations
   ./src/types/graphql.ts:
     plugins:
       - typescript

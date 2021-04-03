@@ -38,12 +38,13 @@
     "graphql": "^15.5.0",
     "lodash.merge": "^4.6.2",
     "serverless-http": "^2.7.0",
-    "shared": "^0.0.0",
+    "shared": "file:../shared",
     "stripe": "^8.139.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",
     "@graphql-codegen/typescript": "^1.21.1",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
     "@types/lodash.merge": "^4.6.6",
     "concurrently": "^6.0.0"
   }
