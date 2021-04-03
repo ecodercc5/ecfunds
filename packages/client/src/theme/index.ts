@@ -11,6 +11,12 @@ const baseChipStyles = {
 };
 
 export const theme = extendTheme({
+  colors: {
+    brand: "#64BF99",
+    accent: "#A4A7B1",
+    "light-accent": "#EAEAEA",
+    text: "#212121",
+  },
   components: {
     Badge: {
       variants: {
