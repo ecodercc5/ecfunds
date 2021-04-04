@@ -1,6 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 
-const baseChipStyles = {
+const baseChipAndTagStyles = {
   fontSize: "xs",
   px: 2,
   py: 1,
@@ -20,15 +20,20 @@ export const theme = extendTheme({
   components: {
     Badge: {
       variants: {
+        tag: {
+          bg: "#64BF99",
+          color: "#fff",
+          ...baseChipAndTagStyles,
+        },
         "chip-selected": {
           bg: "#64BF99",
           color: "#fff",
-          ...baseChipStyles,
+          ...baseChipAndTagStyles,
         },
         "chip-unselected": {
           bg: "none",
           color: "#A4A7B1",
-          ...baseChipStyles,
+          ...baseChipAndTagStyles,
         },
       },
     },

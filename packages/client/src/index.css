@@ -24,3 +24,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.simple-table > .simple-table-row:last-of-type {
+  border: none;
+}

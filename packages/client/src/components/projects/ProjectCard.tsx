@@ -13,7 +13,7 @@ export const ProjectCard: React.FC<Props> = () => {
 
       <Box p={3} bg="white" borderRadius="0 0 4px 4px">
         <Flex justifyContent="space-between" alignItems="center">
-          <Badge colorScheme="green">Tech</Badge>
+          <Badge variant="tag">Tech</Badge>
           <Text as="p" color="#64BF99" fontSize="sm">
             25% Funded
           </Text>
@@ -31,9 +31,9 @@ export const ProjectCard: React.FC<Props> = () => {
         <Box>
           <Progress
             colorScheme="green"
-            value={25}
             size="sm"
-            borderRadius="999px"
+            value={25}
+            borderRadius="full"
           />
 
           <Flex justifyContent="space-between" mt={1}>
