@@ -11,22 +11,49 @@ export type Scalars = {
   Float: number;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  _?: Maybe<Scalars['Boolean']>;
-  me?: Maybe<User>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
+  addCommentToProject?: Maybe<Comment>;
   createProject?: Maybe<Project>;
   signInUser?: Maybe<User>;
 };
 
 
+export type MutationAddCommentToProjectArgs = {
+  input: AddCommentToProjectInput;
+};
+
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
+};
+
+export type Comment = {
+  __typename?: 'Comment';
+  content: Scalars['String'];
+  user: CommentUserDetails;
+  createdAt: Scalars['Int'];
+  projectId: Scalars['ID'];
+  id: Scalars['ID'];
+};
+
+export type CommentUserDetails = {
+  __typename?: 'CommentUserDetails';
+  name: Scalars['String'];
+  photoUrl?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+export type AddCommentToProjectInput = {
+  projectId: Scalars['ID'];
+  content: Scalars['String'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  _?: Maybe<Scalars['Boolean']>;
+  me?: Maybe<User>;
 };
 
 export type Project = {

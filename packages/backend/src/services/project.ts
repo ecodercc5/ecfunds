@@ -21,4 +21,10 @@ export class ProjectService {
 
     return newProject;
   }
+
+  static getById(id: string) {
+    return ProjectCollection.doc(id)
+      .get()
+      .then((doc) => doc.data());
+  }
 }
