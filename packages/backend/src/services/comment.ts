@@ -10,6 +10,15 @@ interface AddCommentToProjectArgs {
 }
 
 export class CommentService {
+  static async getCommentsFromProject(projectId: string) {
+    const query = CommentCollection.where("projectId", "==", projectId);
+    const comments = await query
+      .get()
+      .then((snap) => snap.docs.map((doc) => doc.data()));
+
+    return comments;
+  }
+
   static async addCommentToProject({ user, comment }: AddCommentToProjectArgs) {
     const { projectId, content } = comment;
 

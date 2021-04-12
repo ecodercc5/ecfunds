@@ -11,6 +11,7 @@ export const typeDef = gql`
 
   extend type Mutation {
     signInUser: User
+    completeBillingOnboarding: UserBillingOnboarding
   }
 
   type User {
@@ -19,6 +20,10 @@ export const typeDef = gql`
     photoUrl: String
     chargesEnabled: Boolean!
     id: ID!
+  }
+
+  type UserBillingOnboarding {
+    link: String
   }
 `;
 
@@ -49,6 +54,16 @@ export const resolvers = {
       const user = await UserService.signUp(uid);
 
       return user;
+    },
+
+    completeBillingOnboarding: async (_: any, args: any, context: Context) => {
+      AuthService.requireAuth(context.user);
+
+      const link = await UserService.createBillingOnboardingLink(context.user!);
+
+      return {
+        link,
+      };
     },
   },
 

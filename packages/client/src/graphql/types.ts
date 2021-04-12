@@ -15,6 +15,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
   addCommentToProject?: Maybe<Comment>;
+  completeBillingOnboarding?: Maybe<UserBillingOnboarding>;
   createProject?: Maybe<Project>;
   signInUser?: Maybe<User>;
 };
@@ -53,7 +54,13 @@ export type AddCommentToProjectInput = {
 export type Query = {
   __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
+  getProject?: Maybe<Project>;
   me?: Maybe<User>;
+};
+
+
+export type QueryGetProjectArgs = {
+  id: Scalars['String'];
 };
 
 export type Project = {
@@ -62,6 +69,7 @@ export type Project = {
   image: Scalars['String'];
   description: Scalars['String'];
   createdAt: Scalars['Int'];
+  comments: Array<Comment>;
   id: Scalars['ID'];
 };
 
@@ -85,6 +93,11 @@ export type User = {
   photoUrl?: Maybe<Scalars['String']>;
   chargesEnabled: Scalars['Boolean'];
   id: Scalars['ID'];
+};
+
+export type UserBillingOnboarding = {
+  __typename?: 'UserBillingOnboarding';
+  link?: Maybe<Scalars['String']>;
 };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;

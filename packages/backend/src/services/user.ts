@@ -4,6 +4,8 @@ import { auth } from "../modules/firebase";
 import { stripe } from "../modules/stripe";
 
 export class UserService {
+  private static stripe = stripe;
+
   static async signIn(uid: string) {
     console.log("signing in user");
 
@@ -73,5 +75,20 @@ export class UserService {
     await UserCollection.doc(uid).set(newUser);
 
     return newUser;
+  }
+
+  static async createBillingOnboardingLink(user: User) {
+    const {
+      billing: { connectedAccountId },
+    } = user;
+
+    const accountLink = await UserService.stripe.accountLinks.create({
+      account: connectedAccountId,
+      return_url: "http://localhost:3000/return",
+      refresh_url: "http://localhost:3000/refresh",
+      type: "account_onboarding",
+    });
+
+    return accountLink.url;
   }
 }

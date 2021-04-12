@@ -11,7 +11,7 @@ export function useLazyAsync<T, K>(func: PromiseFunction<T, K>) {
     (args?: T) => {
       setIsLoading(true);
 
-      func(args)
+      return func(args)
         .then((data) => setData(data))
         .catch((err) => setError(err))
         .finally(() => setIsLoading(false));
