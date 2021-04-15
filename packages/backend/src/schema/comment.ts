@@ -13,7 +13,7 @@ export const typeDef = gql`
   type Comment {
     content: String!
     user: CommentUserDetails!
-    createdAt: Int!
+    createdAt: Date!
     projectId: ID!
     id: ID!
   }

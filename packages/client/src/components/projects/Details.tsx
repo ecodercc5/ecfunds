@@ -1,13 +1,18 @@
 import { Image } from "@chakra-ui/image";
 import { AspectRatio, Badge, Box, Flex, Text } from "@chakra-ui/layout";
 import { Progress } from "@chakra-ui/progress";
+import { GetProjectQuery } from "../../graphql/types";
 import { Row } from "../table/Row";
 import { SimpleTable } from "../table/SimpleTable";
 import { AvatarDetails } from "../user/AvatarDetails";
 
-interface Props {}
+interface Props {
+  project: GetProjectQuery["getProject"];
+}
 
-export const ProjectDetails: React.FC<Props> = () => {
+export const ProjectDetails: React.FC<Props> = ({ project }) => {
+  const { name, description } = project!;
+
   return (
     <Box width="100%">
       <AspectRatio ratio={4 / 3} width="100%">
@@ -24,6 +29,10 @@ export const ProjectDetails: React.FC<Props> = () => {
         </Text>
       </Flex>
 
+      <Text as="h1" fontWeight={600} fontSize="lg" mb={2}>
+        {name}
+      </Text>
+
       <AvatarDetails
         photoUrl="https://images.unsplash.com/photo-1617353318123-78b8edc20f82?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80"
         name="Eric Chen"
@@ -31,10 +40,7 @@ export const ProjectDetails: React.FC<Props> = () => {
       />
 
       <Text color="accent" fontSize="sm" lineHeight="24px">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex tenetur
-        magnam dolorem rem soluta! Magni officiis repudiandae nemo velit
-        recusandae distinctio quam corporis, quod impedit repellendus autem,
-        nam, id quo!
+        {description}
       </Text>
 
       <Box my={4}>

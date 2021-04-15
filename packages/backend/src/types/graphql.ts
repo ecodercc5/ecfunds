@@ -9,6 +9,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: number;
 };
 
 export type Mutation = {
@@ -34,7 +35,7 @@ export type Comment = {
   __typename?: 'Comment';
   content: Scalars['String'];
   user: CommentUserDetails;
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['Date'];
   projectId: Scalars['ID'];
   id: Scalars['ID'];
 };
@@ -60,7 +61,7 @@ export type Query = {
 
 
 export type QueryGetProjectArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type Project = {
@@ -68,7 +69,7 @@ export type Project = {
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['Date'];
   comments: Array<Comment>;
   id: Scalars['ID'];
 };
@@ -85,6 +86,7 @@ export type CreateProjectInput = {
   image: Scalars['String'];
   description: Scalars['String'];
 };
+
 
 export type User = {
   __typename?: 'User';

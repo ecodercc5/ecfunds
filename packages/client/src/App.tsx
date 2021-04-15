@@ -1,13 +1,14 @@
 import { Route, Switch } from "react-router";
 import { Box } from "@chakra-ui/react";
-import { Components } from "./pages/Components";
 import { PrivateRoute } from "./containers/routes/PrivateRoute";
 import { PublicRoute } from "./containers/routes/PublicRoute";
+import { Components } from "./pages/Components";
 import { Login } from "./pages/Login";
+import { ProjectDetailsPage } from "./pages/ProjectDetailsPage";
 
 export const App = () => {
   return (
-    <Box bg="#F7F7F7" height="100%">
+    <Box bg="#FEFEFE" height="100%">
       <Switch>
         <Route path="/components" component={Components} />
         <PrivateRoute
@@ -15,6 +16,7 @@ export const App = () => {
           component={() => <div>Private route</div>}
         />
         <PublicRoute path="/login" component={Login} />
+        <Route path="/project/:id" component={ProjectDetailsPage} />
       </Switch>
     </Box>
   );

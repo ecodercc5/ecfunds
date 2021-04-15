@@ -11,7 +11,7 @@ import {
 
 export const typeDef = gql`
   extend type Query {
-    getProject(id: String!): Project
+    getProject(id: ID!): Project
   }
 
   extend type Mutation {
@@ -26,7 +26,7 @@ export const typeDef = gql`
     # tags: [String!]!
     # amountFunded: Float!
     # backers: Int!
-    createdAt: Int!
+    createdAt: Date!
     comments: [Comment!]!
     # endDate: Int!
     id: ID!

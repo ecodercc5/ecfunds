@@ -5,7 +5,7 @@ export const Components = () => {
     <div
       style={{ display: "flex", justifyContent: "center", padding: "0 12px" }}
     >
-      <ProjectDetails />
+      {/* <ProjectDetails /> */}
     </div>
   );
 };

@@ -1,10 +1,16 @@
-schema: "./src/schema/*.ts"
+schema: "./src/schema/**"
 documents: "../client/src/graphql/*.ts"
 generates:
   ../client/src/graphql/types.ts:
     plugins:
       - typescript
       - typescript-operations
+    config:
+      scalars:
+        Date: number
   ./src/types/graphql.ts:
     plugins:
       - typescript
+    config:
+      scalars:
+        Date: number

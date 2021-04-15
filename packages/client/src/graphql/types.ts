@@ -9,6 +9,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: number;
 };
 
 export type Mutation = {
@@ -34,7 +35,7 @@ export type Comment = {
   __typename?: 'Comment';
   content: Scalars['String'];
   user: CommentUserDetails;
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['Date'];
   projectId: Scalars['ID'];
   id: Scalars['ID'];
 };
@@ -60,7 +61,7 @@ export type Query = {
 
 
 export type QueryGetProjectArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type Project = {
@@ -68,7 +69,7 @@ export type Project = {
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  createdAt: Scalars['Int'];
+  createdAt: Scalars['Date'];
   comments: Array<Comment>;
   id: Scalars['ID'];
 };
@@ -86,6 +87,7 @@ export type CreateProjectInput = {
   description: Scalars['String'];
 };
 
+
 export type User = {
   __typename?: 'User';
   name: Scalars['String'];
@@ -99,6 +101,27 @@ export type UserBillingOnboarding = {
   __typename?: 'UserBillingOnboarding';
   link?: Maybe<Scalars['String']>;
 };
+
+export type GetProjectQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetProjectQuery = (
+  { __typename?: 'Query' }
+  & { getProject?: Maybe<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'name' | 'description' | 'image' | 'createdAt' | 'id'>
+    & { comments: Array<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'content' | 'projectId' | 'createdAt' | 'id'>
+      & { user: (
+        { __typename?: 'CommentUserDetails' }
+        & Pick<CommentUserDetails, 'name' | 'photoUrl'>
+      ) }
+    )> }
+  )> }
+);
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
