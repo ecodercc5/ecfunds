@@ -12,6 +12,7 @@ import {
 export const typeDef = gql`
   extend type Query {
     getProject(id: ID!): Project
+    getProjects: [Project!]!
   }
 
   extend type Mutation {
@@ -53,6 +54,12 @@ export const resolvers = {
       const project = await ProjectService.getById(projectId);
 
       return project;
+    },
+
+    getProjects: async () => {
+      const projects = await ProjectService.getProjects();
+
+      return projects;
     },
   },
 

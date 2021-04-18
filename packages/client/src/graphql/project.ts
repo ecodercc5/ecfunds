@@ -9,6 +9,7 @@ export const GET_PROJECT = gql`
         user {
           name
           photoUrl
+          id
         }
         projectId
         createdAt
@@ -17,6 +18,16 @@ export const GET_PROJECT = gql`
       description
       image
       createdAt
+      id
+    }
+  }
+`;
+
+export const GET_PROJECTS = gql`
+  query GetProjects {
+    getProjects {
+      name
+      image
       id
     }
   }

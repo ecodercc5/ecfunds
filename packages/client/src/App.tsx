@@ -5,6 +5,7 @@ import { PublicRoute } from "./containers/routes/PublicRoute";
 import { Components } from "./pages/Components";
 import { Login } from "./pages/Login";
 import { ProjectDetailsPage } from "./pages/ProjectDetailsPage";
+import { HomePage } from "./pages/HomePage";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
         />
         <PublicRoute path="/login" component={Login} />
         <Route path="/project/:id" component={ProjectDetailsPage} />
+        <Route path="/projects" component={HomePage} />
       </Switch>
     </Box>
   );

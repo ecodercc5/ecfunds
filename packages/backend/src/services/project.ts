@@ -1,5 +1,6 @@
 import { Project, ProjectCollection } from "../models/project";
 import { User } from "../models/user";
+import * as CollectionHelpers from "../helpers/collection";
 
 interface CreateProjectArgs {
   name: string;
@@ -26,5 +27,9 @@ export class ProjectService {
     return ProjectCollection.doc(id)
       .get()
       .then((doc) => doc.data());
+  }
+
+  static getProjects() {
+    return ProjectCollection.get().then(CollectionHelpers.data);
   }
 }

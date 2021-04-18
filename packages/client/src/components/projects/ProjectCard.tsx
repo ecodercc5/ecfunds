@@ -1,9 +1,11 @@
 import React from "react";
 import { Badge, Box, Image, Text, Flex, Progress } from "@chakra-ui/react";
 
-interface Props {}
+interface Props {
+  project: any;
+}
 
-export const ProjectCard: React.FC<Props> = () => {
+export const ProjectCard: React.FC<Props> = ({ project }) => {
   return (
     <Box maxWidth={350} borderRadius="4px">
       <Image
@@ -21,7 +23,7 @@ export const ProjectCard: React.FC<Props> = () => {
 
         <Box mt={2} mb={3}>
           <Text as="h2" color="#212121" fontSize="lg" fontWeight={600}>
-            Cool Camera
+            {project.name}
           </Text>
           <Text as="p" color="#A4A7B1" fontSize="sm">
             By Eric Chen

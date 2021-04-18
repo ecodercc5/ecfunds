@@ -1,6 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { GET_PROJECT } from "../graphql/project";
-import { GetProjectQuery, GetProjectQueryVariables } from "../graphql/types";
+import { GET_PROJECT, GET_PROJECTS } from "../graphql/project";
+import {
+  GetProjectQuery,
+  GetProjectQueryVariables,
+  GetProjectsQuery,
+  GetProjectsQueryVariables,
+} from "../graphql/types";
 
 export const useGetProject = (projectId: string) => {
   return useQuery<GetProjectQuery, GetProjectQueryVariables>(GET_PROJECT, {
@@ -8,4 +13,8 @@ export const useGetProject = (projectId: string) => {
       id: projectId,
     },
   });
+};
+
+export const useGetProjects = () => {
+  return useQuery<GetProjectsQuery, GetProjectsQueryVariables>(GET_PROJECTS);
 };

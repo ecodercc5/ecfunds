@@ -56,6 +56,7 @@ export type Query = {
   __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
   getProject?: Maybe<Project>;
+  getProjects: Array<Project>;
   me?: Maybe<User>;
 };
 

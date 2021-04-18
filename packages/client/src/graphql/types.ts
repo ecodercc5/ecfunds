@@ -56,6 +56,7 @@ export type Query = {
   __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
   getProject?: Maybe<Project>;
+  getProjects: Array<Project>;
   me?: Maybe<User>;
 };
 
@@ -117,9 +118,20 @@ export type GetProjectQuery = (
       & Pick<Comment, 'content' | 'projectId' | 'createdAt' | 'id'>
       & { user: (
         { __typename?: 'CommentUserDetails' }
-        & Pick<CommentUserDetails, 'name' | 'photoUrl'>
+        & Pick<CommentUserDetails, 'name' | 'photoUrl' | 'id'>
       ) }
     )> }
+  )> }
+);
+
+export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProjectsQuery = (
+  { __typename?: 'Query' }
+  & { getProjects: Array<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'name' | 'image' | 'id'>
   )> }
 );
 
