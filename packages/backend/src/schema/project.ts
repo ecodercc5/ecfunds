@@ -24,9 +24,10 @@ export const typeDef = gql`
     image: String!
     description: String!
     # user: User!
-    # tags: [String!]!
-    # amountFunded: Float!
-    # backers: Int!
+    tag: Tag!
+    target: Float!
+    amountFunded: Float!
+    backers: Int!
     createdAt: Date!
     comments: [Comment!]!
     # endDate: Int!
@@ -43,6 +44,8 @@ export const typeDef = gql`
     name: String!
     image: String!
     description: String!
+    tag: Tag!
+    target: Float!
   }
 `;
 

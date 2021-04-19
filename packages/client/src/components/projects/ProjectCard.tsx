@@ -1,11 +1,21 @@
 import React from "react";
 import { Badge, Box, Image, Text, Flex, Progress } from "@chakra-ui/react";
+import { GetProjectsQuery } from "../../graphql/types";
+import { convertToRoundedPercentage } from "../../helpers/math";
+import { toCamelCase } from "../../helpers/text";
+
+type Project = GetProjectsQuery["getProjects"][number];
 
 interface Props {
-  project: any;
+  project: Project;
 }
 
 export const ProjectCard: React.FC<Props> = ({ project }) => {
+  const { name, tag, target, amountFunded } = project;
+
+  const percentFunded = convertToRoundedPercentage(amountFunded, target);
+  const tagText = toCamelCase(tag);
+
   return (
     <Box maxWidth={350} borderRadius="4px">
       <Image
@@ -15,15 +25,15 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
 
       <Box p={3} bg="white" borderRadius="0 0 4px 4px">
         <Flex justifyContent="space-between" alignItems="center">
-          <Badge variant="tag">Tech</Badge>
+          <Badge variant="tag">{tagText}</Badge>
           <Text as="p" color="#64BF99" fontSize="sm">
-            25% Funded
+            {percentFunded}% Funded
           </Text>
         </Flex>
 
         <Box mt={2} mb={3}>
           <Text as="h2" color="#212121" fontSize="lg" fontWeight={600}>
-            {project.name}
+            {name}
           </Text>
           <Text as="p" color="#A4A7B1" fontSize="sm">
             By Eric Chen
@@ -34,16 +44,16 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
           <Progress
             colorScheme="green"
             size="sm"
-            value={25}
+            value={percentFunded}
             borderRadius="full"
           />
 
           <Flex justifyContent="space-between" mt={1}>
             <Text as="p" color="#64BF99" fontSize="sm">
-              $100 Funded
+              ${amountFunded} Funded
             </Text>
             <Text as="p" color="#A4A7B1" fontSize="sm">
-              Target: $1000
+              Target: ${target}
             </Text>
           </Flex>
         </Box>

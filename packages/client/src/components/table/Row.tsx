@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 
 interface Props {
   label: string;
-  value: string;
+  value: any;
 }
 
 export const Row: React.FC<Props> = ({ label, value }) => {

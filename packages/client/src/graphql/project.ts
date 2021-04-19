@@ -17,6 +17,10 @@ export const GET_PROJECT = gql`
       }
       description
       image
+      tag
+      target
+      amountFunded
+      backers
       createdAt
       id
     }
@@ -28,6 +32,9 @@ export const GET_PROJECTS = gql`
     getProjects {
       name
       image
+      tag
+      target
+      amountFunded
       id
     }
   }

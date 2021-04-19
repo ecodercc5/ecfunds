@@ -57,6 +57,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>;
   getProject?: Maybe<Project>;
   getProjects: Array<Project>;
+  getTags: Array<Maybe<Tag>>;
   me?: Maybe<User>;
 };
 
@@ -65,11 +66,23 @@ export type QueryGetProjectArgs = {
   id: Scalars['ID'];
 };
 
+export enum Tag {
+  Tech = 'TECH',
+  Art = 'ART',
+  Clothing = 'CLOTHING',
+  Food = 'FOOD',
+  Film = 'FILM'
+}
+
 export type Project = {
   __typename?: 'Project';
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
+  tag: Tag;
+  target: Scalars['Float'];
+  amountFunded: Scalars['Float'];
+  backers: Scalars['Int'];
   createdAt: Scalars['Date'];
   comments: Array<Comment>;
   id: Scalars['ID'];
@@ -86,6 +99,8 @@ export type CreateProjectInput = {
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
+  tag: Tag;
+  target: Scalars['Float'];
 };
 
 
@@ -112,7 +127,7 @@ export type GetProjectQuery = (
   { __typename?: 'Query' }
   & { getProject?: Maybe<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'description' | 'image' | 'createdAt' | 'id'>
+    & Pick<Project, 'name' | 'description' | 'image' | 'tag' | 'target' | 'amountFunded' | 'backers' | 'createdAt' | 'id'>
     & { comments: Array<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'content' | 'projectId' | 'createdAt' | 'id'>
@@ -131,7 +146,7 @@ export type GetProjectsQuery = (
   { __typename?: 'Query' }
   & { getProjects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'image' | 'id'>
+    & Pick<Project, 'name' | 'image' | 'tag' | 'target' | 'amountFunded' | 'id'>
   )> }
 );
 

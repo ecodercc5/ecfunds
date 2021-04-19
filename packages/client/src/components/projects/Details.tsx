@@ -2,6 +2,8 @@ import { Image } from "@chakra-ui/image";
 import { AspectRatio, Badge, Box, Flex, Text } from "@chakra-ui/layout";
 import { Progress } from "@chakra-ui/progress";
 import { GetProjectQuery } from "../../graphql/types";
+import { convertToRoundedPercentage } from "../../helpers/math";
+import { toCamelCase } from "../../helpers/text";
 import { Row } from "../table/Row";
 import { SimpleTable } from "../table/SimpleTable";
 import { AvatarDetails } from "../user/AvatarDetails";
@@ -11,7 +13,10 @@ interface Props {
 }
 
 export const ProjectDetails: React.FC<Props> = ({ project }) => {
-  const { name, description } = project!;
+  const { name, description, tag, target, amountFunded, backers } = project!;
+
+  const percentFunded = convertToRoundedPercentage(amountFunded, target);
+  const tagText = toCamelCase(tag);
 
   return (
     <Box width="100%">
@@ -23,9 +28,9 @@ export const ProjectDetails: React.FC<Props> = ({ project }) => {
       </AspectRatio>
 
       <Flex justifyContent="space-between" alignItems="center" my={3}>
-        <Badge variant="tag">Tech</Badge>
+        <Badge variant="tag">{tagText}</Badge>
         <Text fontSize="sm" color="brand" fontWeight={500}>
-          25% Funded
+          {percentFunded}% Funded
         </Text>
       </Flex>
 
@@ -46,24 +51,24 @@ export const ProjectDetails: React.FC<Props> = ({ project }) => {
       <Box my={4}>
         <Flex justifyContent="space-between" alignItems="center" mb={2}>
           <Text color="brand" fontSize="sm" fontWeight={500}>
-            $100 Funded
+            ${amountFunded} Funded
           </Text>
           <Text color="brand" fontSize="sm" fontWeight={500}>
-            25%
+            {percentFunded}%
           </Text>
         </Flex>
         <Progress
           colorScheme="green"
           size="sm"
-          value={25}
+          value={percentFunded}
           borderRadius="full"
         />
       </Box>
 
       <SimpleTable>
+        <Row label="Target" value={`$${target}`} />
         <Row label="Target" value="$1000" />
-        <Row label="Target" value="$1000" />
-        <Row label="Target" value="$1000" />
+        <Row label="Backers" value={backers} />
       </SimpleTable>
     </Box>
   );
