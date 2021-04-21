@@ -1,11 +1,29 @@
 import { Project, ProjectCollection } from "../models/project";
 import { User } from "../models/user";
 import * as CollectionHelpers from "../helpers/collection";
+import { ApolloError } from "apollo-server-errors";
+import { Bookmark, BookmarkCollection } from "../models/bookmark";
+import { BookmarkService } from "./bookmark";
 
 interface CreateProjectArgs {
   name: string;
   image: string;
   description: string;
+}
+
+interface BookmarkProjectArgs {
+  uid: string;
+  projectId: string;
+}
+
+interface RemoveBookmarkFromProjectArgs {
+  uid: string;
+  projectId: string;
+}
+
+interface IsBookmarkedArgs {
+  uid: string;
+  projectId: string;
 }
 
 export class ProjectService {
@@ -31,5 +49,50 @@ export class ProjectService {
 
   static getProjects() {
     return ProjectCollection.get().then(CollectionHelpers.data);
+  }
+
+  static async bookmarkProject(args: BookmarkProjectArgs) {
+    const { uid, projectId } = args;
+
+    // check if bookmark exists
+    const existingBookmark = await BookmarkService.getByUidAndProjectId({
+      uid,
+      projectId,
+    });
+
+    if (existingBookmark) {
+      throw new ApolloError("Project already bookmarked");
+    }
+
+    // check if the project exists
+    const project = await ProjectService.getById(projectId);
+
+    if (!project) {
+      throw new ApolloError("Project does not exist", "400");
+    }
+
+    // create and save a bookmark
+    const bookmark = await BookmarkService.create({ uid, projectId });
+
+    return bookmark;
+  }
+
+  static removeBookmarkFromProject({
+    uid,
+    projectId,
+  }: RemoveBookmarkFromProjectArgs) {
+    return BookmarkService.removeBookmark({
+      uid,
+      projectId,
+    });
+  }
+
+  static async isBookmarked({ uid, projectId }: IsBookmarkedArgs) {
+    const bookmark = await BookmarkService.getByUidAndProjectId({
+      uid,
+      projectId,
+    });
+
+    return bookmark ? true : false;
   }
 }

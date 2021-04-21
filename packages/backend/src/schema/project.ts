@@ -7,6 +7,8 @@ import { ProjectService } from "../services/project";
 import {
   QueryGetProjectArgs,
   MutationCreateProjectArgs,
+  MutationBookmarkProjectArgs,
+  MutationRemoveBookmarkFromProjectArgs,
 } from "../types/graphql";
 
 export const typeDef = gql`
@@ -17,6 +19,8 @@ export const typeDef = gql`
 
   extend type Mutation {
     createProject(input: CreateProjectInput!): Project
+    bookmarkProject(projectId: ID!): Boolean!
+    removeBookmarkFromProject(projectId: ID!): Boolean!
   }
 
   type Project {
@@ -30,6 +34,7 @@ export const typeDef = gql`
     backers: Int!
     createdAt: Date!
     comments: [Comment!]!
+    isBookmarked: Boolean!
     # endDate: Int!
     id: ID!
   }
@@ -81,6 +86,36 @@ export const resolvers = {
 
       return project;
     },
+
+    bookmarkProject: async (
+      _: any,
+      args: MutationBookmarkProjectArgs,
+      context: Context
+    ) => {
+      AuthService.requireAuth(context.user);
+
+      const uid = context.user?.id!;
+      const projectId = args.projectId;
+
+      await ProjectService.bookmarkProject({ uid, projectId });
+
+      return true;
+    },
+
+    removeBookmarkFromProject: async (
+      _: any,
+      args: MutationRemoveBookmarkFromProjectArgs,
+      context: Context
+    ) => {
+      AuthService.requireAuth(context.user);
+
+      const uid = context.user?.id!;
+      const projectId = args.projectId;
+
+      await ProjectService.removeBookmarkFromProject({ uid, projectId });
+
+      return true;
+    },
   },
 
   Project: {
@@ -90,6 +125,18 @@ export const resolvers = {
       const comments = await CommentService.getCommentsFromProject(projectId);
 
       return comments;
+    },
+
+    isBookmarked: async (parent: Project, _: any, context: Context) => {
+      const uid = context.user?.id || "";
+      const projectId = parent.id;
+
+      const isBookmarked = await ProjectService.isBookmarked({
+        uid,
+        projectId,
+      });
+
+      return isBookmarked;
     },
   },
 };

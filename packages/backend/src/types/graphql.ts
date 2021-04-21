@@ -16,8 +16,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
   addCommentToProject?: Maybe<Comment>;
+  bookmarkProject: Scalars['Boolean'];
   completeBillingOnboarding?: Maybe<UserBillingOnboarding>;
   createProject?: Maybe<Project>;
+  removeBookmarkFromProject: Scalars['Boolean'];
   signInUser?: Maybe<User>;
 };
 
@@ -27,8 +29,18 @@ export type MutationAddCommentToProjectArgs = {
 };
 
 
+export type MutationBookmarkProjectArgs = {
+  projectId: Scalars['ID'];
+};
+
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
+};
+
+
+export type MutationRemoveBookmarkFromProjectArgs = {
+  projectId: Scalars['ID'];
 };
 
 export type Comment = {
@@ -85,6 +97,7 @@ export type Project = {
   backers: Scalars['Int'];
   createdAt: Scalars['Date'];
   comments: Array<Comment>;
+  isBookmarked: Scalars['Boolean'];
   id: Scalars['ID'];
 };
 

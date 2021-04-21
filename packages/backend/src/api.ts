@@ -4,6 +4,7 @@ import { ApolloServer } from "apollo-server-express";
 import serverless from "serverless-http";
 import { schema } from "./schema";
 import { ApolloServerExpressContextAPI } from "./api/context";
+import { router as webhookRoutes } from "./routes/webhooks";
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ const apolloServer = new ApolloServer({
 });
 
 app.use("/.netlify/functions/api", api);
+
+api.use("/webhooks", webhookRoutes);
 
 apolloServer.applyMiddleware({ app: api });
 
