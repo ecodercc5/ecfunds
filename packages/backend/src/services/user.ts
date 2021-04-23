@@ -2,6 +2,7 @@ import { ApolloError } from "apollo-server-errors";
 import { User, UserCollection } from "../models/user";
 import { auth } from "../modules/firebase";
 import { stripe } from "../modules/stripe";
+import * as CollectionHelpers from "../helpers/collection";
 
 export class UserService {
   private static stripe = stripe;
@@ -27,6 +28,13 @@ export class UserService {
     return UserCollection.doc(uid)
       .get()
       .then((doc) => doc.data());
+  }
+
+  static getByConnectedAccountId(accountId: string) {
+    return UserCollection.where("billing.accountId", "==", accountId)
+      .get()
+      .then(CollectionHelpers.data)
+      .then((docs) => docs[0]);
   }
 
   static async signUp(uid: string) {
