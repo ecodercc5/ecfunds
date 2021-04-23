@@ -159,8 +159,28 @@ export type GetProjectsQuery = (
   { __typename?: 'Query' }
   & { getProjects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'image' | 'tag' | 'target' | 'amountFunded' | 'id'>
+    & Pick<Project, 'name' | 'image' | 'isBookmarked' | 'tag' | 'target' | 'amountFunded' | 'id'>
   )> }
+);
+
+export type BookmarkProjectMutationVariables = Exact<{
+  projectId: Scalars['ID'];
+}>;
+
+
+export type BookmarkProjectMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'bookmarkProject'>
+);
+
+export type RemoveBookmarkFromProjectMutationVariables = Exact<{
+  projectId: Scalars['ID'];
+}>;
+
+
+export type RemoveBookmarkFromProjectMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'removeBookmarkFromProject'>
 );
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;

@@ -3,25 +3,50 @@ import { Badge, Box, Image, Text, Flex, Progress } from "@chakra-ui/react";
 import { GetProjectsQuery } from "../../graphql/types";
 import { convertToRoundedPercentage } from "../../helpers/math";
 import { toCamelCase } from "../../helpers/text";
+import { useHover } from "../../hooks/hover";
 
-type Project = GetProjectsQuery["getProjects"][number];
+export type Project = GetProjectsQuery["getProjects"][number];
 
 interface Props {
   project: Project;
+  onBookmark?: (project: Project) => any;
+  onRemoveBookmark?: (project: Project) => any;
 }
 
-export const ProjectCard: React.FC<Props> = ({ project }) => {
-  const { name, tag, target, amountFunded } = project;
+export const ProjectCard: React.FC<Props> = ({
+  project,
+  onBookmark = () => {},
+  onRemoveBookmark = () => {},
+}) => {
+  const { name, tag, target, isBookmarked, amountFunded } = project;
+
+  const [ref, isHovered] = useHover();
 
   const percentFunded = convertToRoundedPercentage(amountFunded, target);
   const tagText = toCamelCase(tag);
 
   return (
-    <Box maxWidth={350} borderRadius="4px">
-      <Image
-        src="https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2689&q=80"
-        borderRadius="4px 4px 0 0"
-      />
+    <Box ref={ref} maxWidth={350} borderRadius="4px">
+      <Box position="relative">
+        <Image
+          src="https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2689&q=80"
+          borderRadius="4px 4px 0 0"
+        />
+
+        {isHovered && (
+          <div
+            onClick={() => {
+              if (isBookmarked) {
+                onRemoveBookmark(project);
+              } else {
+                onBookmark(project);
+              }
+            }}
+          >
+            isBookmarked: {isBookmarked ? "true" : "false"}
+          </div>
+        )}
+      </Box>
 
       <Box p={3} bg="white" borderRadius="0 0 4px 4px">
         <Flex justifyContent="space-between" alignItems="center">
