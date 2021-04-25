@@ -40,15 +40,15 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <ChakraProvider theme={theme}>
-        <AuthProvider firebase={firebase}>
-          <BrowserRouter>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <ChakraProvider theme={theme}>
+          <AuthProvider firebase={firebase}>
             <App />
-          </BrowserRouter>
-        </AuthProvider>
-      </ChakraProvider>
-    </ApolloProvider>
+          </AuthProvider>
+        </ChakraProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

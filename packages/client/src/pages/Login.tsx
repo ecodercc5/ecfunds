@@ -10,7 +10,7 @@ export const Login: React.FC = () => {
     <div>
       <Button
         onClick={() => {
-          signInWithGoogle().then(() => history.push("/private"));
+          signInWithGoogle().then(() => history.push("/logout"));
         }}
       >
         Sign in with Google

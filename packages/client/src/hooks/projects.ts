@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import {
   BOOKMARK_PROJECT,
   GET_PROJECT,
@@ -29,10 +29,27 @@ export const useGetProjects = () => {
 };
 
 export const useAddBookmarkToProject = () => {
+  const client = useApolloClient();
+
   return useMutation<BookmarkProjectMutation, BookmarkProjectMutationVariables>(
     BOOKMARK_PROJECT,
     {
       update: (cache, { data }) => {
+        const projectId = data?.bookmarkProject.projectId;
+        const projectCacheId = `Project:${projectId}`;
+
+        client.writeFragment({
+          id: projectCacheId,
+          fragment: gql`
+            fragment BookmarkField on Project {
+              isBookmarked
+            }
+          `,
+          data: {
+            isBookmarked: true,
+          },
+        });
+
         console.log("finished add bookmark mutation");
       },
     }
@@ -40,8 +57,29 @@ export const useAddBookmarkToProject = () => {
 };
 
 export const useRemoveBookmarkFromProject = () => {
+  const client = useApolloClient();
+
   return useMutation<
     RemoveBookmarkFromProjectMutation,
     RemoveBookmarkFromProjectMutationVariables
-  >(REMOVE_BOOKMARK_FROM_PROJECT);
+  >(REMOVE_BOOKMARK_FROM_PROJECT, {
+    update: (cache, { data }) => {
+      const projectId = data?.removeBookmarkFromProject.projectId;
+      const projectCacheId = `Project:${projectId}`;
+
+      client.writeFragment({
+        id: projectCacheId,
+        fragment: gql`
+          fragment BookmarkField on Project {
+            isBookmarked
+          }
+        `,
+        data: {
+          isBookmarked: false,
+        },
+      });
+
+      console.log("finished removing bookmark");
+    },
+  });
 };

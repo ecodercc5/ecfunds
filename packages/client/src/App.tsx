@@ -6,6 +6,7 @@ import { Components } from "./pages/Components";
 import { Login } from "./pages/Login";
 import { ProjectDetailsPage } from "./pages/ProjectDetailsPage";
 import { HomePage } from "./pages/HomePage";
+import { Logout } from "./pages/Logout";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
           component={() => <div>Private route</div>}
         />
         <PublicRoute path="/login" component={Login} />
+        <PrivateRoute path="/logout" component={Logout} />
         <Route path="/project/:id" component={ProjectDetailsPage} />
         <Route path="/projects" component={HomePage} />
       </Switch>

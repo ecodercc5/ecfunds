@@ -2,19 +2,16 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import { GetMeQuery } from "../../../graphql/types";
 import { GET_ME } from "../../../graphql/user";
-import { useLazyMe } from "../../../hooks/auth";
-import { FirebaseApp, FirebaseUser } from "../../../types/firebase";
+import { FirebaseApp } from "../../../types/firebase";
 
 export const useAuthState = (firebase: FirebaseApp) => {
   const authStateInitRef = useRef(false);
-  const firebaseUserRef = useRef<FirebaseUser | null>(null);
 
+  const [init, setInit] = useState(false);
   const [authMeta, setAuthMeta] = useState({ isLoading: true, error: "" });
-  const [
-    getMe,
-    { data: lazyMeData, loading: isMeLoading, called },
-  ] = useLazyMe();
-  const { data } = useQuery<GetMeQuery>(GET_ME, { fetchPolicy: "cache-only" });
+  const { data, refetch: getUser } = useQuery<GetMeQuery>(GET_ME, {
+    skip: !init,
+  });
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(
@@ -25,13 +22,18 @@ export const useAuthState = (firebase: FirebaseApp) => {
         if (!authStateInitRef.current && user) {
           console.log("user already logged in");
 
-          getMe();
+          await getUser().then((res) => {
+            console.log("done getting user");
+
+            console.log({ me: res.data.me });
+          });
 
           user.getIdToken().then((idToken) => console.log(idToken));
         }
 
         authStateInitRef.current = true;
-        firebaseUserRef.current = user;
+
+        setInit(true);
 
         setAuthMeta((prev) => ({ ...prev, isLoading: false }));
       },
@@ -41,13 +43,15 @@ export const useAuthState = (firebase: FirebaseApp) => {
     );
 
     return unsubscribe;
-  }, [firebase, getMe]);
+  }, [firebase, getUser]);
 
-  const isLoading =
-    authMeta.isLoading ||
-    isMeLoading ||
-    (firebaseUserRef.current ? !called : false);
-  const me = data?.me || lazyMeData?.me || null;
+  const res = {
+    isLoading: authMeta.isLoading,
+    error: authMeta.error,
+    user: data?.me || null,
+  };
 
-  return { isLoading, error: authMeta.error, user: me };
+  console.log(res);
+
+  return res;
 };

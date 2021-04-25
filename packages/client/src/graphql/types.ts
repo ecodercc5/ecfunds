@@ -16,10 +16,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
   addCommentToProject?: Maybe<Comment>;
-  bookmarkProject: Scalars['Boolean'];
+  bookmarkProject: BookmarkProjectMutationResponse;
   completeBillingOnboarding?: Maybe<UserBillingOnboarding>;
   createProject?: Maybe<Project>;
-  removeBookmarkFromProject: Scalars['Boolean'];
+  removeBookmarkFromProject: RemoveBookmarkFromProjectMutationResponse;
   signInUser?: Maybe<User>;
 };
 
@@ -116,6 +116,18 @@ export type CreateProjectInput = {
   target: Scalars['Float'];
 };
 
+export type BookmarkProjectMutationResponse = {
+  __typename?: 'BookmarkProjectMutationResponse';
+  projectId: Scalars['ID'];
+  success: Scalars['Boolean'];
+};
+
+export type RemoveBookmarkFromProjectMutationResponse = {
+  __typename?: 'RemoveBookmarkFromProjectMutationResponse';
+  projectId: Scalars['ID'];
+  success: Scalars['Boolean'];
+};
+
 
 export type User = {
   __typename?: 'User';
@@ -170,7 +182,10 @@ export type BookmarkProjectMutationVariables = Exact<{
 
 export type BookmarkProjectMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'bookmarkProject'>
+  & { bookmarkProject: (
+    { __typename?: 'BookmarkProjectMutationResponse' }
+    & Pick<BookmarkProjectMutationResponse, 'projectId' | 'success'>
+  ) }
 );
 
 export type RemoveBookmarkFromProjectMutationVariables = Exact<{
@@ -180,7 +195,10 @@ export type RemoveBookmarkFromProjectMutationVariables = Exact<{
 
 export type RemoveBookmarkFromProjectMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeBookmarkFromProject'>
+  & { removeBookmarkFromProject: (
+    { __typename?: 'RemoveBookmarkFromProjectMutationResponse' }
+    & Pick<RemoveBookmarkFromProjectMutationResponse, 'projectId' | 'success'>
+  ) }
 );
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;

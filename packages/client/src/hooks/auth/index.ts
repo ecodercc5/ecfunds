@@ -1,13 +1,9 @@
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { useCallback } from "react";
 import { firebase } from "../../firebase";
-import { GetMeQuery, SignInUserMutation } from "../../graphql/types";
+import { SignInUserMutation } from "../../graphql/types";
 import { GET_ME, SIGN_IN_USER } from "../../graphql/user";
 import { useLazyAsync } from "../useAsync";
-
-export const useLazyMe = () => {
-  return useLazyQuery<GetMeQuery>(GET_ME);
-};
 
 export const useSignInWithGoogle = () => {
   const client = useApolloClient();
@@ -24,6 +20,8 @@ export const useSignInWithGoogle = () => {
           me: data?.signInUser!,
         },
       });
+
+      console.log("after updating me in the cache");
     },
   });
 
@@ -32,6 +30,8 @@ export const useSignInWithGoogle = () => {
     await firebase.auth().signInWithPopup(googleProvider);
 
     await signInUser();
+
+    console.log("after login flow complete");
   });
 };
 

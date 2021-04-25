@@ -43,12 +43,18 @@ export const GET_PROJECTS = gql`
 
 export const BOOKMARK_PROJECT = gql`
   mutation BookmarkProject($projectId: ID!) {
-    bookmarkProject(projectId: $projectId)
+    bookmarkProject(projectId: $projectId) {
+      projectId
+      success
+    }
   }
 `;
 
 export const REMOVE_BOOKMARK_FROM_PROJECT = gql`
   mutation RemoveBookmarkFromProject($projectId: ID!) {
-    removeBookmarkFromProject(projectId: $projectId)
+    removeBookmarkFromProject(projectId: $projectId) {
+      projectId
+      success
+    }
   }
 `;

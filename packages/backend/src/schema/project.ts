@@ -19,8 +19,10 @@ export const typeDef = gql`
 
   extend type Mutation {
     createProject(input: CreateProjectInput!): Project
-    bookmarkProject(projectId: ID!): Boolean!
-    removeBookmarkFromProject(projectId: ID!): Boolean!
+    bookmarkProject(projectId: ID!): BookmarkProjectMutationResponse!
+    removeBookmarkFromProject(
+      projectId: ID!
+    ): RemoveBookmarkFromProjectMutationResponse!
   }
 
   type Project {
@@ -51,6 +53,16 @@ export const typeDef = gql`
     description: String!
     tag: Tag!
     target: Float!
+  }
+
+  type BookmarkProjectMutationResponse {
+    projectId: ID!
+    success: Boolean!
+  }
+
+  type RemoveBookmarkFromProjectMutationResponse {
+    projectId: ID!
+    success: Boolean!
   }
 `;
 
@@ -99,7 +111,10 @@ export const resolvers = {
 
       await ProjectService.bookmarkProject({ uid, projectId });
 
-      return true;
+      return {
+        projectId,
+        success: true,
+      };
     },
 
     removeBookmarkFromProject: async (
@@ -114,7 +129,10 @@ export const resolvers = {
 
       await ProjectService.removeBookmarkFromProject({ uid, projectId });
 
-      return true;
+      return {
+        projectId,
+        success: true,
+      };
     },
   },
 
