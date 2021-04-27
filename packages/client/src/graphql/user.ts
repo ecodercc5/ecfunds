@@ -23,3 +23,11 @@ export const SIGN_IN_USER = gql`
     }
   }
 `;
+
+export const COMPLETE_BILLING_ONBOARDING = gql`
+  mutation CompleteBillingOnboarding {
+    completeBillingOnboarding {
+      link
+    }
+  }
+`;

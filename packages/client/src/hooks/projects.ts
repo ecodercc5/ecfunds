@@ -1,6 +1,7 @@
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import {
   BOOKMARK_PROJECT,
+  CREATE_PROJECT,
   GET_PROJECT,
   GET_PROJECTS,
   REMOVE_BOOKMARK_FROM_PROJECT,
@@ -8,6 +9,8 @@ import {
 import {
   BookmarkProjectMutation,
   BookmarkProjectMutationVariables,
+  CreateProjectMutation,
+  CreateProjectMutationVariables,
   GetProjectQuery,
   GetProjectQueryVariables,
   GetProjectsQuery,
@@ -26,6 +29,12 @@ export const useGetProject = (projectId: string) => {
 
 export const useGetProjects = () => {
   return useQuery<GetProjectsQuery, GetProjectsQueryVariables>(GET_PROJECTS);
+};
+
+export const useCreateProject = () => {
+  return useMutation<CreateProjectMutation, CreateProjectMutationVariables>(
+    CREATE_PROJECT
+  );
 };
 
 export const useAddBookmarkToProject = () => {

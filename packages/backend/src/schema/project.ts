@@ -91,6 +91,8 @@ export const resolvers = {
     ) => {
       AuthService.requireAuth(context.user);
 
+      console.log("creating project");
+
       const user = context.user!;
       const projectArgs = args.input;
 

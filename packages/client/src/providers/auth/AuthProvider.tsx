@@ -1,11 +1,12 @@
 import React from "react";
+import { User } from "../../graphql/types";
 import { FirebaseApp } from "../../types/firebase";
 import { useAuthState } from "./hooks";
 
 interface IAuthContext {
   isLoading: boolean;
   error: string;
-  user: any;
+  user: User | null;
 }
 
 const AuthContext = React.createContext<IAuthContext>(null!);

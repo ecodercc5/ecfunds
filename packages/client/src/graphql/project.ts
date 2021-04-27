@@ -41,6 +41,23 @@ export const GET_PROJECTS = gql`
   }
 `;
 
+export const CREATE_PROJECT = gql`
+  mutation CreateProject($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      name
+      image
+      description
+      tag
+      target
+      amountFunded
+      backers
+      createdAt
+      isBookmarked
+      id
+    }
+  }
+`;
+
 export const BOOKMARK_PROJECT = gql`
   mutation BookmarkProject($projectId: ID!) {
     bookmarkProject(projectId: $projectId) {

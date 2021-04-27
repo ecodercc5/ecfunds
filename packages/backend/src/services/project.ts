@@ -2,14 +2,10 @@ import { Project, ProjectCollection } from "../models/project";
 import { User } from "../models/user";
 import * as CollectionHelpers from "../helpers/collection";
 import { ApolloError } from "apollo-server-errors";
-import { Bookmark, BookmarkCollection } from "../models/bookmark";
 import { BookmarkService } from "./bookmark";
+import { CreateProjectInput } from "../types/graphql";
 
-interface CreateProjectArgs {
-  name: string;
-  image: string;
-  description: string;
-}
+interface CreateProjectArgs extends CreateProjectInput {}
 
 interface BookmarkProjectArgs {
   uid: string;

@@ -175,6 +175,19 @@ export type GetProjectsQuery = (
   )> }
 );
 
+export type CreateProjectMutationVariables = Exact<{
+  input: CreateProjectInput;
+}>;
+
+
+export type CreateProjectMutation = (
+  { __typename?: 'Mutation' }
+  & { createProject?: Maybe<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'name' | 'image' | 'description' | 'tag' | 'target' | 'amountFunded' | 'backers' | 'createdAt' | 'isBookmarked' | 'id'>
+  )> }
+);
+
 export type BookmarkProjectMutationVariables = Exact<{
   projectId: Scalars['ID'];
 }>;
@@ -220,5 +233,16 @@ export type SignInUserMutation = (
   & { signInUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'name' | 'email' | 'photoUrl' | 'chargesEnabled' | 'id'>
+  )> }
+);
+
+export type CompleteBillingOnboardingMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CompleteBillingOnboardingMutation = (
+  { __typename?: 'Mutation' }
+  & { completeBillingOnboarding?: Maybe<(
+    { __typename?: 'UserBillingOnboarding' }
+    & Pick<UserBillingOnboarding, 'link'>
   )> }
 );

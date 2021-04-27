@@ -7,6 +7,8 @@ import { Login } from "./pages/Login";
 import { ProjectDetailsPage } from "./pages/ProjectDetailsPage";
 import { HomePage } from "./pages/HomePage";
 import { Logout } from "./pages/Logout";
+import { CreateProjectPage } from "./pages/CreateProject";
+import { BillingOnboardingPage } from "./pages/BillingOnboarding";
 
 export const App = () => {
   return (
@@ -19,8 +21,13 @@ export const App = () => {
         />
         <PublicRoute path="/login" component={Login} />
         <PrivateRoute path="/logout" component={Logout} />
-        <Route path="/project/:id" component={ProjectDetailsPage} />
+        <Route path="/projects/:id" component={ProjectDetailsPage} />
         <Route path="/projects" component={HomePage} />
+        <PrivateRoute path="/create-project" component={CreateProjectPage} />
+        <PrivateRoute
+          path="/billing/onboarding"
+          component={BillingOnboardingPage}
+        />
       </Switch>
     </Box>
   );
