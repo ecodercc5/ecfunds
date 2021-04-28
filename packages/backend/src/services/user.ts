@@ -31,7 +31,7 @@ export class UserService {
   }
 
   static getByConnectedAccountId(accountId: string) {
-    return UserCollection.where("billing.accountId", "==", accountId)
+    return UserCollection.where("billing.connectedAccountId", "==", accountId)
       .get()
       .then(CollectionHelpers.data)
       .then((docs) => docs[0]);

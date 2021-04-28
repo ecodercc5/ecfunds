@@ -9,6 +9,7 @@ import {
   MutationCreateProjectArgs,
   MutationBookmarkProjectArgs,
   MutationRemoveBookmarkFromProjectArgs,
+  MutationFundProjectArgs,
 } from "../types/graphql";
 
 export const typeDef = gql`
@@ -23,6 +24,7 @@ export const typeDef = gql`
     removeBookmarkFromProject(
       projectId: ID!
     ): RemoveBookmarkFromProjectMutationResponse!
+    fundProject(input: FundProjectInput!): String!
   }
 
   type Project {
@@ -63,6 +65,11 @@ export const typeDef = gql`
   type RemoveBookmarkFromProjectMutationResponse {
     projectId: ID!
     success: Boolean!
+  }
+
+  input FundProjectInput {
+    amount: Float!
+    projectId: ID!
   }
 `;
 
@@ -135,6 +142,21 @@ export const resolvers = {
         projectId,
         success: true,
       };
+    },
+
+    fundProject: async (
+      _: any,
+      args: MutationFundProjectArgs,
+      context: Context
+    ) => {
+      AuthService.requireAuth(context.user);
+
+      const secret = await ProjectService.fundProject(
+        args.input,
+        context.user!
+      );
+
+      return secret;
     },
   },
 

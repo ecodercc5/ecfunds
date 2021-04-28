@@ -7,6 +7,7 @@ const router = express.Router();
 
 const STRIPE_WEBHOOK_SECRET = "whsec_UdfJzPrKJYXRJq8bu5HQPR63wEwH5M0G";
 
+// convert req.body into its raw form
 router.use(
   express.raw({
     type: "application/json",
@@ -20,6 +21,8 @@ router.post("/stripe", async (req, res) => {
   const signature = req.header("stripe-signature")!;
 
   let event: Stripe.Event;
+
+  console.log("stripe webhook");
 
   try {
     event = stripe.webhooks.constructEvent(

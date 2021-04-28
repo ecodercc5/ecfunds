@@ -3,7 +3,9 @@ import { User } from "../models/user";
 import * as CollectionHelpers from "../helpers/collection";
 import { ApolloError } from "apollo-server-errors";
 import { BookmarkService } from "./bookmark";
-import { CreateProjectInput } from "../types/graphql";
+import { CreateProjectInput, FundProjectInput } from "../types/graphql";
+import { UserService } from "./user";
+import { stripe } from "../modules/stripe";
 
 interface CreateProjectArgs extends CreateProjectInput {}
 
@@ -22,11 +24,21 @@ interface IsBookmarkedArgs {
   projectId: string;
 }
 
+interface FundProjectArgs extends FundProjectInput {}
+
 export class ProjectService {
+  static stripe = stripe;
+
   static async create(project: CreateProjectArgs, user: User) {
     console.log("creating project");
 
     // need to add validation to check if user billing is enabled
+    if (!user.billing.chargesEnabled) {
+      throw new ApolloError(
+        "You need to complete billing onboarding before creating a project",
+        "400"
+      );
+    }
 
     // create new project
     const newProject = new Project({ ...project, uid: user.id });
@@ -90,5 +102,56 @@ export class ProjectService {
     });
 
     return bookmark ? true : false;
+  }
+
+  static async fundProject(args: FundProjectArgs, user: User) {
+    const { amount, projectId } = args;
+
+    console.log("funding a project");
+
+    const project = await this.getById(projectId);
+
+    if (!project) {
+      throw new ApolloError("Cannot fund a project that does not exist", "400");
+    }
+
+    const stripeAmount = amount * 100;
+
+    const projectCreator = (await UserService.getByUid(project.uid))!;
+    const creatorConnectAccountId = projectCreator?.billing.connectedAccountId;
+
+    const metadata = {
+      projectId: project.id,
+      backerUid: user.id,
+    };
+
+    console.log("meta data");
+    console.log(metadata);
+
+    console.log("user");
+    console.log(user);
+
+    console.log("project creator");
+    console.log(projectCreator);
+
+    console.log("stripe amt");
+    console.log(stripeAmount);
+
+    console.log("project");
+    console.log(project);
+
+    const paymentIntent = await this.stripe.paymentIntents.create({
+      payment_method_types: ["card"],
+      amount: stripeAmount,
+      currency: "usd",
+      metadata,
+      transfer_data: {
+        destination: creatorConnectAccountId,
+      },
+    });
+
+    console.log({ paymentIntent });
+
+    return paymentIntent.client_secret;
   }
 }

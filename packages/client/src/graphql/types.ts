@@ -19,6 +19,7 @@ export type Mutation = {
   bookmarkProject: BookmarkProjectMutationResponse;
   completeBillingOnboarding?: Maybe<UserBillingOnboarding>;
   createProject?: Maybe<Project>;
+  fundProject: Scalars['String'];
   removeBookmarkFromProject: RemoveBookmarkFromProjectMutationResponse;
   signInUser?: Maybe<User>;
 };
@@ -36,6 +37,11 @@ export type MutationBookmarkProjectArgs = {
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
+};
+
+
+export type MutationFundProjectArgs = {
+  input: FundProjectInput;
 };
 
 
@@ -126,6 +132,11 @@ export type RemoveBookmarkFromProjectMutationResponse = {
   __typename?: 'RemoveBookmarkFromProjectMutationResponse';
   projectId: Scalars['ID'];
   success: Scalars['Boolean'];
+};
+
+export type FundProjectInput = {
+  amount: Scalars['Float'];
+  projectId: Scalars['ID'];
 };
 
 
