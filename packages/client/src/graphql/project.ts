@@ -75,3 +75,9 @@ export const REMOVE_BOOKMARK_FROM_PROJECT = gql`
     }
   }
 `;
+
+export const FUND_PROJECT = gql`
+  mutation FundProject($input: FundProjectInput!) {
+    fundProject(input: $input)
+  }
+`;

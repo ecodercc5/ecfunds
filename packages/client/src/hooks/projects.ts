@@ -2,6 +2,7 @@ import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import {
   BOOKMARK_PROJECT,
   CREATE_PROJECT,
+  FUND_PROJECT,
   GET_PROJECT,
   GET_PROJECTS,
   REMOVE_BOOKMARK_FROM_PROJECT,
@@ -11,6 +12,8 @@ import {
   BookmarkProjectMutationVariables,
   CreateProjectMutation,
   CreateProjectMutationVariables,
+  FundProjectMutation,
+  FundProjectMutationVariables,
   GetProjectQuery,
   GetProjectQueryVariables,
   GetProjectsQuery,
@@ -91,4 +94,10 @@ export const useRemoveBookmarkFromProject = () => {
       console.log("finished removing bookmark");
     },
   });
+};
+
+export const useFundProject = () => {
+  return useMutation<FundProjectMutation, FundProjectMutationVariables>(
+    FUND_PROJECT
+  );
 };

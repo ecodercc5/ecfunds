@@ -225,6 +225,16 @@ export type RemoveBookmarkFromProjectMutation = (
   ) }
 );
 
+export type FundProjectMutationVariables = Exact<{
+  input: FundProjectInput;
+}>;
+
+
+export type FundProjectMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fundProject'>
+);
+
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 

@@ -14,6 +14,9 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { theme } from "./theme";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { STRIPE_CONFIG } from "./config/stripe";
 
 // TODO: Learn wth this means!!!
 const httpLink = createHttpLink({
@@ -38,13 +41,19 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
 });
 
+const stripePromise = loadStripe(STRIPE_CONFIG.KEY);
+
+console.log(stripePromise);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ApolloProvider client={client}>
         <ChakraProvider theme={theme}>
           <AuthProvider firebase={firebase}>
-            <App />
+            <Elements stripe={stripePromise}>
+              <App />
+            </Elements>
           </AuthProvider>
         </ChakraProvider>
       </ApolloProvider>
