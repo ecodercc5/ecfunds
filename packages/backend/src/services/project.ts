@@ -6,6 +6,10 @@ import { BookmarkService } from "./bookmark";
 import { CreateProjectInput, FundProjectInput } from "../types/graphql";
 import { UserService } from "./user";
 import { stripe } from "../modules/stripe";
+import {
+  BackedProject,
+  BackedProjectCollection,
+} from "../models/backedProject";
 
 interface CreateProjectArgs extends CreateProjectInput {}
 
@@ -25,6 +29,12 @@ interface IsBookmarkedArgs {
 }
 
 interface FundProjectArgs extends FundProjectInput {}
+
+interface UpdateFundedProjectArgs {
+  projectId: string;
+  amount: number;
+  backerUid: string;
+}
 
 export class ProjectService {
   static stripe = stripe;
@@ -153,5 +163,41 @@ export class ProjectService {
     console.log({ paymentIntent });
 
     return paymentIntent.client_secret;
+  }
+
+  static async updateFundedProject({
+    projectId,
+    amount,
+    backerUid,
+  }: UpdateFundedProjectArgs) {
+    console.log("[updating funded project]");
+
+    const project = await this.getById(projectId);
+
+    console.log(project);
+
+    if (!project) {
+      throw new Error("Project does not exist");
+    }
+
+    // check if the project has already been backed
+
+    // fund the project
+    project.fundProject(amount);
+    console.log(project);
+
+    // create a link b/w the backer and the backed project
+    const backedProject = new BackedProject({
+      uid: backerUid,
+      projectId,
+    });
+
+    console.log(backedProject);
+
+    // save the project
+    await ProjectCollection.doc(project.id).set(project);
+
+    // save the backed project
+    await BackedProjectCollection.doc(backedProject.id).set(backedProject);
   }
 }

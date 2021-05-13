@@ -1,6 +1,7 @@
 import express from "express";
 import Stripe from "stripe";
 import { stripe } from "../modules/stripe";
+import { ProjectService } from "../services/project";
 import { StripeWebhookService } from "../services/stripeWebhook";
 
 const router = express.Router();
@@ -16,6 +17,24 @@ router.use(
     },
   })
 );
+
+router.post("/stripe-test", async (req, res, next) => {
+  console.log("stripe-test");
+
+  const projectId = "ZP33MCk3BFBMQsDaTrkw";
+  const backerUid = "C7w32quWMyhVA7KC47JRcWSPnAvU";
+  const stripeAmount = 10000;
+  const amount = stripeAmount / 100;
+
+  console.log({ projectId, amount });
+
+  try {
+    await ProjectService.updateFundedProject({ projectId, amount, backerUid });
+    return res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/stripe", async (req, res) => {
   const signature = req.header("stripe-signature")!;

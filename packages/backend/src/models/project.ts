@@ -49,6 +49,11 @@ export class Project extends Model {
     this.createdAt = createdAt ? createdAt : new Date().getTime();
     this.uid = uid;
   }
+
+  fundProject(amount: number) {
+    this.amountFunded += amount;
+    this.backers++;
+  }
 }
 
 export const ProjectCollection = createCollection("projects", Project);
