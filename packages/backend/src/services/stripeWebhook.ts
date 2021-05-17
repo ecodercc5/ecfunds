@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { UserCollection } from "../models/user";
+import { ProjectService } from "./project";
 import { UserService } from "./user";
 
 export class StripeWebhookService {
@@ -23,5 +24,20 @@ export class StripeWebhookService {
     await UserCollection.doc(user.id).update({
       "billing.chargesEnabled": chargesEnabled,
     });
+  }
+
+  static async handlePaymentIntentSucceeded(event: Stripe.Event) {
+    console.log("payment intent succeeded");
+
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+
+    const {
+      amount: stripeAmount,
+      metadata: { projectId, backerUid },
+    } = paymentIntent;
+
+    const amount = stripeAmount / 100;
+
+    await ProjectService.updateFundedProject({ projectId, backerUid, amount });
   }
 }

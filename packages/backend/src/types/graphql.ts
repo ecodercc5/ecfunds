@@ -73,6 +73,7 @@ export type AddCommentToProjectInput = {
 export type Query = {
   __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
+  getBackedProjects: Array<Project>;
   getProject?: Maybe<Project>;
   getProjects: Array<Project>;
   getTags: Array<Maybe<Tag>>;

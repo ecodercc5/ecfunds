@@ -69,6 +69,21 @@ export class ProjectService {
     return ProjectCollection.get().then(CollectionHelpers.data);
   }
 
+  static async getBackedProjects(user: User) {
+    // get all backed project docs
+    const query = BackedProjectCollection.where("uid", "==", user.id);
+    const backedProjectDocs = await query.get().then(CollectionHelpers.data);
+
+    // map over each and get the actual project
+    let projectsPromise = backedProjectDocs.map(async (doc) => {
+      return (await ProjectService.getById(doc.projectId))!;
+    });
+
+    const projects = await Promise.all(projectsPromise);
+
+    return projects;
+  }
+
   static async bookmarkProject(args: BookmarkProjectArgs) {
     const { uid, projectId } = args;
 
@@ -125,6 +140,10 @@ export class ProjectService {
       throw new ApolloError("Cannot fund a project that does not exist", "400");
     }
 
+    // TODO: check if the project has already been backed
+
+    //
+
     const stripeAmount = amount * 100;
 
     const projectCreator = (await UserService.getByUid(project.uid))!;
@@ -150,11 +169,14 @@ export class ProjectService {
     console.log("project");
     console.log(project);
 
+    const customerId = user.billing.customerId;
+
     const paymentIntent = await this.stripe.paymentIntents.create({
       payment_method_types: ["card"],
       amount: stripeAmount,
       currency: "usd",
       metadata,
+      customer: customerId,
       transfer_data: {
         destination: creatorConnectAccountId,
       },
@@ -179,8 +201,6 @@ export class ProjectService {
     if (!project) {
       throw new Error("Project does not exist");
     }
-
-    // check if the project has already been backed
 
     // fund the project
     project.fundProject(amount);

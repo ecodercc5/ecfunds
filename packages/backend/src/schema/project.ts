@@ -16,6 +16,7 @@ export const typeDef = gql`
   extend type Query {
     getProject(id: ID!): Project
     getProjects: [Project!]!
+    getBackedProjects: [Project!]!
   }
 
   extend type Mutation {
@@ -85,6 +86,18 @@ export const resolvers = {
 
     getProjects: async () => {
       const projects = await ProjectService.getProjects();
+
+      return projects;
+    },
+
+    getBackedProjects: async (_: any, args: any, context: Context) => {
+      console.log("getting backed projects");
+
+      AuthService.requireAuth(context.user);
+
+      const projects = await ProjectService.getBackedProjects(context.user!);
+
+      console.log(projects);
 
       return projects;
     },
