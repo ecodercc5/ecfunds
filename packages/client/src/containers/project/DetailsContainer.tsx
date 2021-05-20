@@ -1,7 +1,7 @@
 import React from "react";
 import { CommentsSection } from "../../components/comments/CommentsSection";
 import { ProjectDetails } from "../../components/projects/Details";
-import { useGetProject } from "../../hooks/projects";
+import { useAddCommentToProject, useGetProject } from "../../hooks/projects";
 
 interface Props {
   projectId: string;
@@ -9,6 +9,7 @@ interface Props {
 
 export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
   const { loading, data } = useGetProject(projectId);
+  const [addComment] = useAddCommentToProject();
 
   const project = data?.getProject;
   const comments = project?.comments;
@@ -18,7 +19,19 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
   ) : (
     <>
       <ProjectDetails project={project} />
-      <CommentsSection comments={comments!} />
+      <CommentsSection
+        comments={comments!}
+        onAddComment={(comment) => {
+          addComment({
+            variables: {
+              input: {
+                projectId,
+                content: comment,
+              },
+            },
+          });
+        }}
+      />
     </>
   );
 };

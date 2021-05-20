@@ -200,6 +200,23 @@ export type CreateProjectMutation = (
   )> }
 );
 
+export type AddCommentToProjectMutationVariables = Exact<{
+  input: AddCommentToProjectInput;
+}>;
+
+
+export type AddCommentToProjectMutation = (
+  { __typename?: 'Mutation' }
+  & { addCommentToProject?: Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Comment, 'content' | 'createdAt' | 'projectId' | 'id'>
+    & { user: (
+      { __typename?: 'CommentUserDetails' }
+      & Pick<CommentUserDetails, 'name' | 'photoUrl' | 'id'>
+    ) }
+  )> }
+);
+
 export type BookmarkProjectMutationVariables = Exact<{
   projectId: Scalars['ID'];
 }>;

@@ -66,8 +66,8 @@ export const ProjectDetails: React.FC<Props> = ({ project }) => {
       </Box>
 
       <SimpleTable>
+        <Row label="Funded" value={`$${amountFunded}`} />
         <Row label="Target" value={`$${target}`} />
-        <Row label="Target" value="$1000" />
         <Row label="Backers" value={backers} />
       </SimpleTable>
     </Box>

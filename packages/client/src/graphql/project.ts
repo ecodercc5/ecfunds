@@ -58,6 +58,22 @@ export const CREATE_PROJECT = gql`
   }
 `;
 
+export const ADD_COMMENT_TO_PROJECT = gql`
+  mutation AddCommentToProject($input: AddCommentToProjectInput!) {
+    addCommentToProject(input: $input) {
+      user {
+        name
+        photoUrl
+        id
+      }
+      content
+      createdAt
+      projectId
+      id
+    }
+  }
+`;
+
 export const BOOKMARK_PROJECT = gql`
   mutation BookmarkProject($projectId: ID!) {
     bookmarkProject(projectId: $projectId) {

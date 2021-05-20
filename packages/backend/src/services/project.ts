@@ -10,6 +10,7 @@ import {
   BackedProject,
   BackedProjectCollection,
 } from "../models/backedProject";
+import { BackedProjectService } from "./backedProject";
 
 interface CreateProjectArgs extends CreateProjectInput {}
 
@@ -141,8 +142,12 @@ export class ProjectService {
     }
 
     // TODO: check if the project has already been backed
+    const projectAlreadyBacked =
+      await BackedProjectService.isProjectAlreadyBacked(projectId, user.id);
 
-    //
+    if (projectAlreadyBacked) {
+      throw new ApolloError("Project already backed", "400");
+    }
 
     const stripeAmount = amount * 100;
 

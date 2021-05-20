@@ -1,5 +1,6 @@
 import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import {
+  ADD_COMMENT_TO_PROJECT,
   BOOKMARK_PROJECT,
   CREATE_PROJECT,
   FUND_PROJECT,
@@ -8,6 +9,8 @@ import {
   REMOVE_BOOKMARK_FROM_PROJECT,
 } from "../graphql/project";
 import {
+  AddCommentToProjectMutation,
+  AddCommentToProjectMutationVariables,
   BookmarkProjectMutation,
   BookmarkProjectMutationVariables,
   CreateProjectMutation,
@@ -38,6 +41,53 @@ export const useCreateProject = () => {
   return useMutation<CreateProjectMutation, CreateProjectMutationVariables>(
     CREATE_PROJECT
   );
+};
+
+export const useAddCommentToProject = () => {
+  const client = useApolloClient();
+
+  return useMutation<
+    AddCommentToProjectMutation,
+    AddCommentToProjectMutationVariables
+  >(ADD_COMMENT_TO_PROJECT, {
+    update: (cache, { data }) => {
+      console.log(data);
+
+      const comment = data?.addCommentToProject!;
+
+      // get the project
+      const projectQuery = client.readQuery<
+        GetProjectQuery,
+        GetProjectQueryVariables
+      >({
+        query: GET_PROJECT,
+        variables: {
+          id: comment.projectId,
+        },
+      });
+
+      const project = projectQuery?.getProject!;
+
+      // add comment to the project
+      const newProject = {
+        ...project,
+        comments: [...project.comments, comment],
+      };
+
+      console.log({ newProject });
+
+      // save project to cache
+      client.writeQuery<GetProjectQuery, GetProjectQueryVariables>({
+        query: GET_PROJECT,
+        data: {
+          getProject: newProject,
+        },
+        variables: {
+          id: project.id,
+        },
+      });
+    },
+  });
 };
 
 export const useAddBookmarkToProject = () => {
