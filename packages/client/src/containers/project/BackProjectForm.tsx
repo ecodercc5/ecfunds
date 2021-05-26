@@ -2,6 +2,7 @@ import { GetProjectQuery } from "../../graphql/types";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Field, Form, Formik } from "formik";
 import { useFundProject } from "../../hooks/projects";
+import { useHistory } from "react-router";
 
 interface Props {
   project: GetProjectQuery["getProject"];
@@ -11,6 +12,7 @@ export const BackProjectForm: React.FC<Props> = ({ project }) => {
   const [fundProject] = useFundProject();
   const elements = useElements();
   const stripe = useStripe();
+  const history = useHistory();
 
   console.log({ project });
 
@@ -55,6 +57,8 @@ export const BackProjectForm: React.FC<Props> = ({ project }) => {
             }
 
             console.log("success");
+
+            history.push("/");
           });
         }}
       >

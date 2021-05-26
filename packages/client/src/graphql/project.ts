@@ -17,10 +17,10 @@ export const GET_PROJECT = gql`
       }
       description
       image
-      tag
       target
       amountFunded
       backers
+      isBookmarked
       createdAt
       id
     }
@@ -33,7 +33,6 @@ export const GET_PROJECTS = gql`
       name
       image
       isBookmarked
-      tag
       target
       amountFunded
       id
@@ -47,7 +46,6 @@ export const CREATE_PROJECT = gql`
       name
       image
       description
-      tag
       target
       amountFunded
       backers

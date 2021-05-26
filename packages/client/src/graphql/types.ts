@@ -76,7 +76,6 @@ export type Query = {
   getBackedProjects: Array<Project>;
   getProject?: Maybe<Project>;
   getProjects: Array<Project>;
-  getTags: Array<Maybe<Tag>>;
   me?: Maybe<User>;
 };
 
@@ -85,20 +84,12 @@ export type QueryGetProjectArgs = {
   id: Scalars['ID'];
 };
 
-export enum Tag {
-  Tech = 'TECH',
-  Art = 'ART',
-  Clothing = 'CLOTHING',
-  Food = 'FOOD',
-  Film = 'FILM'
-}
-
 export type Project = {
   __typename?: 'Project';
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  tag: Tag;
+  photoUrl?: Maybe<Scalars['String']>;
   target: Scalars['Float'];
   amountFunded: Scalars['Float'];
   backers: Scalars['Int'];
@@ -119,7 +110,6 @@ export type CreateProjectInput = {
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  tag: Tag;
   target: Scalars['Float'];
 };
 
@@ -164,7 +154,7 @@ export type GetProjectQuery = (
   { __typename?: 'Query' }
   & { getProject?: Maybe<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'description' | 'image' | 'tag' | 'target' | 'amountFunded' | 'backers' | 'createdAt' | 'id'>
+    & Pick<Project, 'name' | 'description' | 'image' | 'target' | 'amountFunded' | 'backers' | 'isBookmarked' | 'createdAt' | 'id'>
     & { comments: Array<(
       { __typename?: 'Comment' }
       & Pick<Comment, 'content' | 'projectId' | 'createdAt' | 'id'>
@@ -183,7 +173,7 @@ export type GetProjectsQuery = (
   { __typename?: 'Query' }
   & { getProjects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'image' | 'isBookmarked' | 'tag' | 'target' | 'amountFunded' | 'id'>
+    & Pick<Project, 'name' | 'image' | 'isBookmarked' | 'target' | 'amountFunded' | 'id'>
   )> }
 );
 
@@ -196,7 +186,7 @@ export type CreateProjectMutation = (
   { __typename?: 'Mutation' }
   & { createProject?: Maybe<(
     { __typename?: 'Project' }
-    & Pick<Project, 'name' | 'image' | 'description' | 'tag' | 'target' | 'amountFunded' | 'backers' | 'createdAt' | 'isBookmarked' | 'id'>
+    & Pick<Project, 'name' | 'image' | 'description' | 'target' | 'amountFunded' | 'backers' | 'createdAt' | 'isBookmarked' | 'id'>
   )> }
 );
 

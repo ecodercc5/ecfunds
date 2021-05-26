@@ -76,7 +76,6 @@ export type Query = {
   getBackedProjects: Array<Project>;
   getProject?: Maybe<Project>;
   getProjects: Array<Project>;
-  getTags: Array<Maybe<Tag>>;
   me?: Maybe<User>;
 };
 
@@ -85,20 +84,12 @@ export type QueryGetProjectArgs = {
   id: Scalars['ID'];
 };
 
-export enum Tag {
-  Tech = 'TECH',
-  Art = 'ART',
-  Clothing = 'CLOTHING',
-  Food = 'FOOD',
-  Film = 'FILM'
-}
-
 export type Project = {
   __typename?: 'Project';
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  tag: Tag;
+  photoUrl?: Maybe<Scalars['String']>;
   target: Scalars['Float'];
   amountFunded: Scalars['Float'];
   backers: Scalars['Int'];
@@ -119,7 +110,6 @@ export type CreateProjectInput = {
   name: Scalars['String'];
   image: Scalars['String'];
   description: Scalars['String'];
-  tag: Tag;
   target: Scalars['Float'];
 };
 

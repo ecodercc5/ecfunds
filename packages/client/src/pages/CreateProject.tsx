@@ -1,8 +1,10 @@
 import { Formik, Form, Field } from "formik";
 import { useCreateProject } from "../hooks/projects";
-import { Tag } from "../graphql/types";
 import { useAuth } from "../providers/auth";
 import { Redirect } from "react-router";
+import { firebase } from "../firebase";
+
+const storageRef = firebase.storage().ref();
 
 export const CreateProjectPage = () => {
   const [createProject] = useCreateProject();
@@ -18,20 +20,29 @@ export const CreateProjectPage = () => {
         initialValues={{
           name: "",
           target: 0,
-          deadline: Date.now(),
           description: "",
+          photo: null,
         }}
-        onSubmit={({ deadline, ...values }) => {
+        onSubmit={async ({ photo, ...values }) => {
           console.log("creating a project");
 
           console.log(values);
+
+          const photoFile = photo! as File;
+
+          const uploadFile = storageRef
+            .child(`/images/${photoFile.name}`)
+            .put(photoFile);
+
+          await uploadFile;
+
+          const image = await uploadFile.snapshot.ref.getDownloadURL();
 
           createProject({
             variables: {
               input: {
                 ...values,
-                image: "asdf",
-                tag: Tag.Art,
+                image,
               },
             },
           })
@@ -39,19 +50,28 @@ export const CreateProjectPage = () => {
             .catch((err) => console.log(err));
         }}
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           console.log(values);
 
           return (
             <Form>
               <label>Project Name</label>
-              <Field name="name" />
+              <Field required name="name" />
 
               <label>Funding Target</label>
-              <Field type="number" name="target" />
+              <Field required type="number" name="target" />
 
-              <label>Deadline</label>
-              <Field type="date" name="deadline" />
+              <label>Image</label>
+              <input
+                required
+                type="file"
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  const photoFile = e.target.files![0];
+
+                  setFieldValue("photo", photoFile);
+                }}
+              />
 
               <label>Description</label>
               <Field name="description" />

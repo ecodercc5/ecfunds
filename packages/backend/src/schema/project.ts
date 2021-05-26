@@ -32,8 +32,7 @@ export const typeDef = gql`
     name: String!
     image: String!
     description: String!
-    # user: User!
-    tag: Tag!
+    photoUrl: String
     target: Float!
     amountFunded: Float!
     backers: Int!
@@ -54,7 +53,6 @@ export const typeDef = gql`
     name: String!
     image: String!
     description: String!
-    tag: Tag!
     target: Float!
   }
 

@@ -1,22 +1,27 @@
 import { Image } from "@chakra-ui/image";
-import { AspectRatio, Badge, Box, Flex, Text } from "@chakra-ui/layout";
+import { AspectRatio, Box, Flex, Text } from "@chakra-ui/layout";
 import { Progress } from "@chakra-ui/progress";
 import { GetProjectQuery } from "../../graphql/types";
 import { convertToRoundedPercentage } from "../../helpers/math";
-import { toCamelCase } from "../../helpers/text";
 import { Row } from "../table/Row";
 import { SimpleTable } from "../table/SimpleTable";
 import { AvatarDetails } from "../user/AvatarDetails";
 
 interface Props {
   project: GetProjectQuery["getProject"];
+  onBookmark?: () => any;
+  onRemoveBookmark?: () => any;
 }
 
-export const ProjectDetails: React.FC<Props> = ({ project }) => {
-  const { name, description, tag, target, amountFunded, backers } = project!;
+export const ProjectDetails: React.FC<Props> = ({
+  project,
+  onBookmark,
+  onRemoveBookmark,
+}) => {
+  const { name, description, target, amountFunded, backers, isBookmarked } =
+    project!;
 
   const percentFunded = convertToRoundedPercentage(amountFunded, target);
-  const tagText = toCamelCase(tag);
 
   return (
     <Box width="100%">
@@ -28,9 +33,20 @@ export const ProjectDetails: React.FC<Props> = ({ project }) => {
       </AspectRatio>
 
       <Flex justifyContent="space-between" alignItems="center" my={3}>
-        <Badge variant="tag">{tagText}</Badge>
         <Text fontSize="sm" color="brand" fontWeight={500}>
           {percentFunded}% Funded
+        </Text>
+
+        <Text
+          onClick={() => {
+            if (isBookmarked) {
+              return onRemoveBookmark!();
+            }
+
+            onBookmark!();
+          }}
+        >
+          isBookmarked: {isBookmarked ? "true" : "false"}
         </Text>
       </Flex>
 

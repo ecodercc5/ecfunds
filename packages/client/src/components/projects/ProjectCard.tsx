@@ -2,7 +2,6 @@ import React from "react";
 import { Badge, Box, Image, Text, Flex, Progress } from "@chakra-ui/react";
 import { GetProjectsQuery } from "../../graphql/types";
 import { convertToRoundedPercentage } from "../../helpers/math";
-import { toCamelCase } from "../../helpers/text";
 import { useHover } from "../../hooks/hover";
 
 export type Project = GetProjectsQuery["getProjects"][number];
@@ -18,12 +17,11 @@ export const ProjectCard: React.FC<Props> = ({
   onBookmark = () => {},
   onRemoveBookmark = () => {},
 }) => {
-  const { name, tag, target, isBookmarked, amountFunded } = project;
+  const { name, target, isBookmarked, amountFunded } = project;
 
   const [ref, isHovered] = useHover();
 
   const percentFunded = convertToRoundedPercentage(amountFunded, target);
-  const tagText = toCamelCase(tag);
 
   return (
     <Box ref={ref} maxWidth={350} borderRadius="4px">
@@ -50,7 +48,6 @@ export const ProjectCard: React.FC<Props> = ({
 
       <Box p={3} bg="white" borderRadius="0 0 4px 4px">
         <Flex justifyContent="space-between" alignItems="center">
-          <Badge variant="tag">{tagText}</Badge>
           <Text as="p" color="#64BF99" fontSize="sm">
             {percentFunded}% Funded
           </Text>
