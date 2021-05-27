@@ -1,7 +1,14 @@
-import { Container } from "@chakra-ui/layout";
+import { Box, Container } from "@chakra-ui/layout";
+import { Logo } from "../logo/Logo";
 
-interface Props {}
+export const Layout: React.FC = ({ children }) => {
+  return (
+    <Container width="100%">
+      <Box as="nav" py={4}>
+        <Logo />
+      </Box>
 
-export const Layout: React.FC<Props> = ({ children }) => {
-  return <Container pt={4}>{children}</Container>;
+      {children}
+    </Container>
+  );
 };

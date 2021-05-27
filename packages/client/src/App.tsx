@@ -10,8 +10,17 @@ import { Logout } from "./pages/Logout";
 import { CreateProjectPage } from "./pages/CreateProject";
 import { BillingOnboardingPage } from "./pages/BillingOnboarding";
 import { BackProjectPage } from "./pages/BackProject";
+import { useEffect } from "react";
 
 export const App = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      (
+        document.querySelector(".firebase-emulator-warning") as HTMLElement
+      ).remove();
+    }, 0);
+  }, []);
+
   return (
     <Box bg="#FEFEFE" height="100%">
       <Switch>
@@ -22,12 +31,16 @@ export const App = () => {
         />
         <PublicRoute path="/login" component={Login} />
         <PrivateRoute path="/logout" component={Logout} />
-        <Route exact path="/projects/:id" component={ProjectDetailsPage} />
+        <PrivateRoute
+          exact
+          path="/projects/:id"
+          component={ProjectDetailsPage}
+        />
         <PrivateRoute
           path="/projects/:id/backing"
           component={BackProjectPage}
         />
-        <Route path="/projects" component={HomePage} />
+        <PrivateRoute path="/projects" component={HomePage} />
         <PrivateRoute path="/create-project" component={CreateProjectPage} />
         <PrivateRoute
           path="/billing/onboarding"

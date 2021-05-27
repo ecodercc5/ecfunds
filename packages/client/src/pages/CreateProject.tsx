@@ -3,6 +3,12 @@ import { useCreateProject } from "../hooks/projects";
 import { useAuth } from "../providers/auth";
 import { Redirect } from "react-router";
 import { firebase } from "../firebase";
+import { Layout } from "../components/layout/Layout";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Input } from "@chakra-ui/input";
+import { Textarea } from "@chakra-ui/textarea";
+import { Button } from "@chakra-ui/button";
+import { Text } from "@chakra-ui/layout";
 
 const storageRef = firebase.storage().ref();
 
@@ -15,7 +21,11 @@ export const CreateProjectPage = () => {
   }
 
   return (
-    <div>
+    <Layout>
+      <Text as="h1" color="brand" fontSize="xl" fontWeight="bold" mb={2}>
+        Your Project
+      </Text>
+
       <Formik
         initialValues={{
           name: "",
@@ -55,32 +65,40 @@ export const CreateProjectPage = () => {
 
           return (
             <Form>
-              <label>Project Name</label>
-              <Field required name="name" />
+              <FormControl id="name">
+                <FormLabel>Project Name</FormLabel>
+                <Field required name="name" as={Input} />
+              </FormControl>
 
-              <label>Funding Target</label>
-              <Field required type="number" name="target" />
+              <FormControl id="target">
+                <FormLabel>Funding Target</FormLabel>
+                <Field required type="number" name="target" as={Input} />
+              </FormControl>
 
-              <label>Image</label>
-              <input
-                required
-                type="file"
-                onChange={(e) => {
-                  console.log(e.target.files);
-                  const photoFile = e.target.files![0];
+              <FormControl>
+                <FormLabel>Image</FormLabel>
+                <Input
+                  required
+                  type="file"
+                  onChange={(e) => {
+                    console.log(e.target.files);
+                    const photoFile = e.target.files![0];
 
-                  setFieldValue("photo", photoFile);
-                }}
-              />
+                    setFieldValue("photo", photoFile);
+                  }}
+                />
+              </FormControl>
 
-              <label>Description</label>
-              <Field name="description" />
+              <FormControl id="description">
+                <FormLabel>Description</FormLabel>
+                <Field required name="description" as={Textarea} />
+              </FormControl>
 
-              <button type="submit">Create Project</button>
+              <Button type="submit">Create Project</Button>
             </Form>
           );
         }}
       </Formik>
-    </div>
+    </Layout>
   );
 };

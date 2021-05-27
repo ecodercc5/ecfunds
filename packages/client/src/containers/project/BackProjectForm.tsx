@@ -58,7 +58,7 @@ export const BackProjectForm: React.FC<Props> = ({ project }) => {
 
             console.log("success");
 
-            history.push("/");
+            history.push("/projects");
           });
         }}
       >
