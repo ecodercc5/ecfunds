@@ -1,6 +1,8 @@
 import { Image } from "@chakra-ui/image";
 import { AspectRatio, Box, Flex, Text } from "@chakra-ui/layout";
 import { Progress } from "@chakra-ui/progress";
+import { useTheme } from "@chakra-ui/system";
+import { IconBookmark } from "@tabler/icons";
 import { GetProjectQuery } from "../../graphql/types";
 import { convertToRoundedPercentage } from "../../helpers/math";
 import { Row } from "../table/Row";
@@ -9,8 +11,8 @@ import { AvatarDetails } from "../user/AvatarDetails";
 
 interface Props {
   project: GetProjectQuery["getProject"];
-  onBookmark?: () => any;
-  onRemoveBookmark?: () => any;
+  onBookmark: () => any;
+  onRemoveBookmark: () => any;
 }
 
 export const ProjectDetails: React.FC<Props> = ({
@@ -20,6 +22,8 @@ export const ProjectDetails: React.FC<Props> = ({
 }) => {
   const { name, description, target, amountFunded, backers, isBookmarked } =
     project!;
+
+  const theme = useTheme();
 
   const percentFunded = convertToRoundedPercentage(amountFunded, target);
 
@@ -37,17 +41,27 @@ export const ProjectDetails: React.FC<Props> = ({
           {percentFunded}% Funded
         </Text>
 
-        <Text
-          onClick={() => {
-            if (isBookmarked) {
-              return onRemoveBookmark!();
-            }
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
 
-            onBookmark!();
+            if (isBookmarked) {
+              onRemoveBookmark();
+            } else {
+              onBookmark();
+            }
           }}
         >
-          isBookmarked: {isBookmarked ? "true" : "false"}
-        </Text>
+          {!isBookmarked ? (
+            <IconBookmark
+              size={24}
+              fill={theme.colors.brand}
+              color={theme.colors.brand}
+            />
+          ) : (
+            <IconBookmark size={24} color={theme.colors.brand} />
+          )}
+        </div>
       </Flex>
 
       <Text as="h1" fontWeight={600} fontSize="lg" mb={2}>

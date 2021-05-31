@@ -1,5 +1,6 @@
-import { Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import { GetProjectsQuery } from "../../graphql/types";
 import { ProjectCard, Project } from "./ProjectCard";
 
@@ -14,16 +15,21 @@ export const ProjectsList: React.FC<Props> = ({
   onBookmark = () => {},
   onRemoveBookmark = () => {},
 }) => {
+  const history = useHistory();
+
   return (
     <Flex flexDirection="column">
       {projects.map((project) => {
+        const projectLink = `/projects/${project.id}`;
+
         return (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onBookmark={onBookmark}
-            onRemoveBookmark={onRemoveBookmark}
-          />
+          <Box onClick={() => history.push(projectLink)}>
+            <ProjectCard
+              project={project}
+              onBookmark={onBookmark}
+              onRemoveBookmark={onRemoveBookmark}
+            />
+          </Box>
         );
       })}
     </Flex>

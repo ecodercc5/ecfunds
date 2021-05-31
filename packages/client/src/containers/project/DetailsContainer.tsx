@@ -1,4 +1,6 @@
+import { Button } from "@chakra-ui/button";
 import React from "react";
+import { Link } from "react-router-dom";
 import { CommentsSection } from "../../components/comments/CommentsSection";
 import { ProjectDetails } from "../../components/projects/Details";
 import {
@@ -24,6 +26,8 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
   const comments = project?.comments;
 
   console.log({ comments });
+
+  const projectBackingLink = `/projects/${projectId}/backing`;
 
   return loading ? (
     <div>loading!!!</div>
@@ -63,6 +67,17 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
           });
         }}
       />
+      <Button
+        as={Link}
+        to={projectBackingLink}
+        height="100%"
+        width="100%"
+        mt={3}
+        bg="brand"
+        color="white"
+      >
+        Back Project
+      </Button>
     </>
   );
 };

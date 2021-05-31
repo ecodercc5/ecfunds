@@ -1,8 +1,7 @@
-import { Route, Switch } from "react-router";
+import { Switch } from "react-router";
 import { Box } from "@chakra-ui/react";
 import { PrivateRoute } from "./containers/routes/PrivateRoute";
 import { PublicRoute } from "./containers/routes/PublicRoute";
-import { Components } from "./pages/Components";
 import { Login } from "./pages/Login";
 import { ProjectDetailsPage } from "./pages/ProjectDetailsPage";
 import { HomePage } from "./pages/HomePage";
@@ -24,11 +23,7 @@ export const App = () => {
   return (
     <Box bg="#FEFEFE" height="100%">
       <Switch>
-        <Route path="/components" component={Components} />
-        <PrivateRoute
-          path="/private"
-          component={() => <div>Private route</div>}
-        />
+        <PrivateRoute exact path="/" component={HomePage} />
         <PublicRoute path="/login" component={Login} />
         <PrivateRoute path="/logout" component={Logout} />
         <PrivateRoute
@@ -40,7 +35,6 @@ export const App = () => {
           path="/projects/:id/backing"
           component={BackProjectPage}
         />
-        <PrivateRoute path="/projects" component={HomePage} />
         <PrivateRoute path="/create-project" component={CreateProjectPage} />
         <PrivateRoute
           path="/billing/onboarding"

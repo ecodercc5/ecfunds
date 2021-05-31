@@ -1,4 +1,6 @@
+import { Button } from "@chakra-ui/button";
 import { useHistory } from "react-router";
+import { Layout } from "../components/layout/Layout";
 import { useLogout } from "../hooks/auth";
 
 interface Props {}
@@ -8,16 +10,16 @@ export const Logout = (props: Props) => {
   const { execute: logout } = useLogout();
 
   return (
-    <div>
-      <button
+    <Layout>
+      <Button
         onClick={() => {
-          console.log("loggin out");
+          console.log("logging out");
 
           logout().then(() => history.push("/login"));
         }}
       >
-        logout
-      </button>
-    </div>
+        Logout
+      </Button>
+    </Layout>
   );
 };

@@ -16,6 +16,8 @@ export const CreateProjectPage = () => {
   const [createProject] = useCreateProject();
   const { user } = useAuth();
 
+  console.log("create project page");
+
   if (!user?.chargesEnabled) {
     return <Redirect to="/billing/onboarding" />;
   }

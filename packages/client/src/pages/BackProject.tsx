@@ -1,4 +1,5 @@
 import { useParams } from "react-router";
+import { Layout } from "../components/layout/Layout";
 import { BackProjectContainer } from "../containers/project/BackProjectContainer";
 
 export const BackProjectPage = () => {
@@ -7,8 +8,8 @@ export const BackProjectPage = () => {
   const projectId = params.id;
 
   return (
-    <div>
+    <Layout>
       <BackProjectContainer projectId={projectId} />
-    </div>
+    </Layout>
   );
 };

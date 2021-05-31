@@ -1,5 +1,7 @@
 import { Button } from "@chakra-ui/button";
+import { Flex } from "@chakra-ui/layout";
 import { useHistory } from "react-router";
+import { Layout } from "../components/layout/Layout";
 import { useSignInWithGoogle } from "../hooks/auth";
 
 export const Login: React.FC = () => {
@@ -7,14 +9,16 @@ export const Login: React.FC = () => {
   const { execute: signInWithGoogle } = useSignInWithGoogle();
 
   return (
-    <div>
-      <Button
-        onClick={() => {
-          signInWithGoogle().then(() => history.push("/logout"));
-        }}
-      >
-        Sign in with Google
-      </Button>
-    </div>
+    <Layout>
+      <Flex justifyContent="center" alignItems="center" flex={2}>
+        <Button
+          onClick={() => {
+            signInWithGoogle().then(() => history.push("/"));
+          }}
+        >
+          Sign in with Google
+        </Button>
+      </Flex>
+    </Layout>
   );
 };

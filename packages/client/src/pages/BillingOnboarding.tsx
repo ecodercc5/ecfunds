@@ -1,4 +1,7 @@
+import { Button } from "@chakra-ui/button";
+import { Box } from "@chakra-ui/layout";
 import { Redirect } from "react-router";
+import { Layout } from "../components/layout/Layout";
 import { useCompleteUserOnboarding } from "../hooks/billing";
 import { useAuth } from "../providers/auth";
 
@@ -21,8 +24,10 @@ export const BillingOnboardingPage = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleSetUpBilling}>Set up billing</button>
-    </div>
+    <Layout>
+      <Box display="flex" justifyContent="center" alignItems="center" flex={2}>
+        <Button onClick={handleSetUpBilling}>Set up billing</Button>
+      </Box>
+    </Layout>
   );
 };
