@@ -1,5 +1,5 @@
 [build]
-    functions="dist"
+    functions="packages/backend/dist"
 
 [[redirects]]
     from="/api/*"

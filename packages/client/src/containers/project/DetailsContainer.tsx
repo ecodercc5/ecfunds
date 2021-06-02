@@ -32,7 +32,7 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
   return loading ? (
     <div>loading!!!</div>
   ) : (
-    <>
+    <div>
       <ProjectDetails
         project={project}
         onBookmark={() => {
@@ -70,7 +70,6 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
       <Button
         as={Link}
         to={projectBackingLink}
-        height="100%"
         width="100%"
         mt={3}
         bg="brand"
@@ -78,6 +77,6 @@ export const ProjectDetailsContainer: React.FC<Props> = ({ projectId }) => {
       >
         Back Project
       </Button>
-    </>
+    </div>
   );
 };

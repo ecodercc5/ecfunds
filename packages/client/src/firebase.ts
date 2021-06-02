@@ -7,6 +7,8 @@ import { FIREBASE_CONFIG } from "./config/firebase";
 firebase.initializeApp(FIREBASE_CONFIG);
 
 // use auth emulator
-firebase.auth().useEmulator("http://localhost:9099");
+if (process.env.NODE_ENV === "development") {
+  firebase.auth().useEmulator("http://localhost:9099");
+}
 
 export { firebase };

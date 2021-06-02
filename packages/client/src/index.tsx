@@ -20,7 +20,10 @@ import { STRIPE_CONFIG } from "./config/stripe";
 
 // TODO: Learn wth this means!!!
 const httpLink = createHttpLink({
-  uri: "http://localhost:8888/.netlify/functions/api/graphql",
+  uri:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8888/.netlify/functions/api/graphql"
+      : "/.netlify/functions/api/graphql",
 });
 
 const authLink = setContext(async (_, { headers }) => {
