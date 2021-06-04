@@ -23,7 +23,7 @@ const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "development"
       ? "http://localhost:8888/.netlify/functions/api/graphql"
-      : "/.netlify/functions/api/graphql",
+      : `${window.location.origin}/.netlify/functions/api/graphql`,
 });
 
 const authLink = setContext(async (_, { headers }) => {
