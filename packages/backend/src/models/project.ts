@@ -4,7 +4,6 @@ interface ProjectArgs extends ModelArgs {
   name: string;
   image: string;
   description: string;
-  tag: string;
   target: number;
   amountFunded?: number;
   backers?: number;
@@ -16,7 +15,6 @@ export class Project extends Model {
   name: string;
   image: string;
   description: string;
-  tag: string;
   target: number;
   amountFunded: number;
   backers: number;
@@ -29,7 +27,6 @@ export class Project extends Model {
       name,
       image,
       description,
-      tag,
       target,
       amountFunded,
       backers,
@@ -42,7 +39,6 @@ export class Project extends Model {
     this.name = name;
     this.image = image;
     this.description = description;
-    this.tag = tag;
     this.target = target;
     this.amountFunded = amountFunded ? amountFunded : 0;
     this.backers = backers ? backers : 0;

@@ -67,3 +67,6 @@ node_modules/
 
 # test_data
 /test_data
+
+# firebase config
+firebase_config.json

@@ -17,7 +17,13 @@ const Root = gql`
 
 const typeDefs = [Root, User, Project, Comment, Date];
 const resolvers = merge(
-  {},
+  {
+    Query: {
+      _: () => {
+        console.log(process.env);
+      },
+    },
+  },
   UserResolvers,
   ProjectResolvers,
   CommentResolvers,

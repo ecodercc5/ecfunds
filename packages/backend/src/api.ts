@@ -21,6 +21,8 @@ const apolloServer = new ApolloServer({
   },
 });
 
+app.get("/", (req, res) => res.send("Hola!"));
+
 app.use("/.netlify/functions/api", api);
 
 api.use("/webhooks", webhookRoutes);
